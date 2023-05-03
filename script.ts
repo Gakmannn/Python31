@@ -271,4 +271,29 @@ if (age > 18) {
 // переменная, в которую попадёт значение = (условие)?Значение, если условие истинно:Значение, если условие ложно
 accessAllowed = (age>18)?true:false
 
-console.log((-18**2)**0.5)
+console.log((18**2)**0.5)
+
+
+// Получаем элементы
+const input1 = document.querySelector('#task1 input')
+const button1 = document.querySelector('#task1 button')
+const output1 = document.querySelector('#task1 p')
+
+// По нажатию на кнопку выводим результат
+button1?.addEventListener('click', function() {
+  // @ts-ignore
+  output1.innerText = (+input1.value - +input1.value % 10) / 10 % 10
+})
+
+
+let currentUser = null;
+let defaultUser = "John";
+
+let name1 = currentUser || defaultUser || "unnamed";
+
+console.log(name1); // выбирается "John" – первое истинное значение
+
+console.log("'' || 1 || undefined",'' || 1 || undefined)
+console.log("0 && 1 && 789",'0' && 1 && 789)
+// Приоритет оператора && больше, чем у ||
+// Приоритет НЕ ! является наивысшим из всех логических операторов, поэтому он всегда выполняется первым, перед && или ||

@@ -212,12 +212,47 @@ accessAllowed = (age > 18) ? true : false;
 console.log((18 ** 2) ** 0.5);
 // Получаем элементы
 const input1 = document.querySelector('#task1 input');
-const button1 = document.querySelector('#task1 button');
+const text1 = document.querySelector('#task1 b');
+const button1 = document.querySelectorAll('#task1 button');
 const output1 = document.querySelector('#task1 p');
+// @ts-ignore
+text1.innerText = 'Кто там?';
 // По нажатию на кнопку выводим результат
-button1?.addEventListener('click', function () {
+button1[0]?.addEventListener('click', function () {
     // @ts-ignore
-    output1.innerText = (+input1.value - +input1.value % 10) / 10 % 10;
+    output1.innerText = '';
+    // @ts-ignore
+    if (input1.value == 'Админ') {
+        // @ts-ignore
+        text1.innerText = 'Пароль?';
+        // @ts-ignore
+        input1.value = '';
+        button1[0].classList.add('hidden');
+        button1[1].classList.remove('hidden');
+    }
+    else {
+        // @ts-ignore
+        output1.innerText = 'Я вас не знаю';
+    }
+});
+button1[1]?.addEventListener('click', function () {
+    // @ts-ignore
+    output1.innerText = '';
+    // @ts-ignore
+    if (input1.value == 'Я Главный') {
+        // @ts-ignore
+        output1.innerText = 'Здравствуйте!';
+    }
+    else {
+        // @ts-ignore
+        text1.innerText = 'Кто там?';
+        // @ts-ignore
+        output1.innerText = 'Я вас не знаю';
+        // @ts-ignore
+        input1.value = '';
+        button1[0].classList.remove('hidden');
+        button1[1].classList.add('hidden');
+    }
 });
 let currentUser = null;
 let defaultUser = "John";
@@ -227,3 +262,58 @@ console.log("'' || 1 || undefined", '' || 1 || undefined);
 console.log("0 && 1 && 789", '0' && 1 && 789);
 // Приоритет оператора && больше, чем у ||
 // Приоритет НЕ ! является наивысшим из всех логических операторов, поэтому он всегда выполняется первым, перед && или ||
+// const login = prompt('Кто там?')
+// if (login == null) {
+//   alert('Отменено')
+// } else if (login == 'Админ') {
+//   const pass = prompt('Пароль?')
+//   if (pass == null) {
+//     alert('Отменено')
+//   } else if (pass == 'Я Главный') {
+//     alert('Здравствуйте!')
+//   } else {
+//     alert('Неверный пароль')
+//   }
+// } else {
+//   alert('Я вас не знаю')
+// }
+// Идентичные записи
+// result = a ?? b
+// result = (a !== null && a !== undefined) ? a : b
+// Оператор нулевого слияния возвращает значимые значения и пропускает только null и undefined
+console.log(NaN ?? 0 ?? 'default');
+console.log('' || 0 || 'default');
+// Важное различие между ними заключается в том, что:
+// || возвращает первое истинное значение.
+// ?? возвращает первое определённое значение.
+// Оператор нулевого слияния ?? — это быстрый способ выбрать первое «определённое» значение из списка.
+// Используется для присвоения переменным значений по умолчанию:
+// будет height=100, если переменная height равна null или undefined
+// height = height ?? 100;
+// Оператор ?? имеет очень низкий приоритет, лишь немного выше, чем у ? и =, поэтому при использовании его в выражении, скорее всего, потребуются скобки.
+// Запрещено использовать вместе с || или && без явно указанного приоритета, то есть без скобок.
+let n1 = 5;
+let i = 1;
+// while - цикл с предусловием; Сначала проверяем условие, потом идём в тело цикла
+// while (условие) { Тело цикла выполняется пока условие истинно, иначе управление переходит на следующую строку после цикла (цикл заканчивается)
+//   Тело цикла
+// }
+while (i <= n1) {
+    console.log(i);
+    i++;
+}
+// Бесконечный цикл с условием выхода
+while (true) {
+    if (i > 500)
+        break;
+    i++;
+}
+// do while - цикл с постусловием; Сначала выполняем тело цикла, потом проверяем условие
+// do {
+//   Тело цикла
+// } while (Условие) Тело цикла выполняется пока условие истинно, иначе управление переходит на следующую строку после цикла (цикл заканчивается)
+let number1;
+do {
+    // @ts-ignore
+    number1 = +prompt('Введи число больше 0');
+} while (!number1 || number1 <= 0);

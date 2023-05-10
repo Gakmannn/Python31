@@ -429,3 +429,64 @@ while (true) {
 //   default:
 //     console.log('пора отдохнуть')
 // }
+// let input
+// do {
+//   input = prompt('Введите число') as string
+// } while (input?.length<1)
+// const shift = +(prompt('На сколько разрядов сдвинуть число?') as string)
+// let newNumber = ''
+// for (let i=shift; i<input.length; i++) {
+//   newNumber += input[i]
+// }
+// for (let i=shift-1; i>=0; i--) {
+//   newNumber += input[i]
+// }
+// alert(newNumber)
+const stringAsArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+const string = 'ABCDEFG';
+// Записи аналогичны
+for (let i = 0; i < stringAsArray.length; i++) {
+    console.log('i =', i, `stringAsArray[${i}] =`, stringAsArray[i]);
+}
+for (let i in stringAsArray) {
+    console.log('i =', i, `stringAsArray[${i}] =`, stringAsArray[i]);
+}
+// Записи аналогичны
+for (let i = 0; i < stringAsArray.length; i++) {
+    let char = stringAsArray[i];
+    console.log('char =', char);
+}
+for (let char of stringAsArray) {
+    console.log('char =', char);
+}
+// Делить число 1000 на 2 до тех пор, пока не получится число
+// меньше 50 Вывести это число и сколько делений произвели.
+num = 1000;
+i = 0;
+do {
+    num /= 2;
+    i++;
+} while (num > 50);
+console.log('num =', num, 'i =', i);
+// function имя(параметры) {
+//   ...тело...
+// }
+let local = 'глобальная переменная';
+function showMessage(local) {
+    local = 'локальная переменная';
+    console.log('Всем привет!!!');
+    return (local);
+}
+console.log(local);
+const fromFunction = showMessage(local);
+console.log(fromFunction);
+function showMessage1(text, from = 'Аня', divider = ':') {
+    console.log(from + divider + ' ' + text);
+}
+showMessage1('Привет!');
+showMessage1("Как дела?", "Петя", "!!!");
+showMessage1("Хорошо");
+showMessage1("О, вы тоже тут!", "Макс", "&&&");
+function getSum(a, b = 0, c = 0, d = 0, e = 0) {
+    return a + b + c + d + e;
+}

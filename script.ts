@@ -279,14 +279,18 @@ const input1 = document.querySelector('#task1 input')
 const text1 = document.querySelector('#task1 b')
 const button1 = document.querySelectorAll('#task1 button')
 const output1 = document.querySelector('#task1 p')
-
+document.write('<h1>asddasdas</h1>')
+document.write('<p>asddasdas</p>')
+document.write('<q>asddasdas</q>')
+const h1 = document.querySelector('h1')
+if (h1) h1.innerText = 'ddad'
 // @ts-ignore
 text1.innerText = 'Кто там?'
 // По нажатию на кнопку выводим результат
-button1[0]?.addEventListener('click', function() {
+const onClick = function () {
   // @ts-ignore
   output1.innerText = ''
-  
+
   // @ts-ignore
   if (input1.value == 'Админ') {
     // @ts-ignore
@@ -299,7 +303,8 @@ button1[0]?.addEventListener('click', function() {
     // @ts-ignore
     output1.innerText = 'Я вас не знаю'
   }
-})
+}
+button1[0]?.addEventListener('click', onClick)
 button1[1]?.addEventListener('click', function () {
   // @ts-ignore
   output1.innerText = ''
@@ -590,16 +595,72 @@ console.log(local)
 const fromFunction = showMessage(local)
 console.log(fromFunction)
 
-
+const text = 'sdfsf'
 function showMessage1(text: string, from = 'Аня', divider=':') { // параметры: from, text
   console.log(from + divider + ' ' + text);
 }
 
-showMessage1('Привет!')
+showMessage1(text)
 showMessage1("Как дела?","Петя","!!!")
 showMessage1("Хорошо")
 showMessage1("О, вы тоже тут!", "Макс","&&&")
 
+getSum(1,2,5,6,4)
+
 function getSum(a:number,b=0,c=0,d=0,e=0) {
   return a+b+c+d+e
 }
+
+// Игра «Угадай число». Предложить пользователю загадать
+// число от 0 до 100 и отгадать его следующим способом:
+// каждую итерацию цикла делите диапазон чисел пополам,
+//   записываете результат в N и спрашиваете у пользователя
+// «Ваше число > N, <N или == N ?». В зависимости от того
+// что указал пользователь, уменьшаете диапазон.Начальный
+// диапазон от 0 до 100, поделили пополам и получили 50
+// Если пользователь указал, что его число > 50, то изменили
+// диапазон на от 51 до 100 И так до тех пор, пока пользова -
+//   тель не выберет == N.
+
+// let userConfirmGht
+// let userConfirmSht
+// let userConfirmEqls
+// let N0 = 50
+// let N1 = 100
+// alert('загадайте число от 0 до 100, а я отгадаю')
+// do {
+//   userConfirmGht = confirm(`Ваше число больше ${N0} и меньше ${N1}?`)
+//   if (userConfirmGht) {
+//     N0 = N1/2
+//     N1 = N0 + N1/2
+//   } else {
+//     N1 = N0
+//     N0 /= 2
+//   }
+// } while(N0!=N1)
+// alert(`ваше число ${N0}`)
+
+let sayHi
+// Если нет параметра, обязательно писать круглые скобки
+sayHi = () => console.log("Hello!")
+sayHi = function () {
+  console.log("Привет");
+}
+// let func123 = (arg1, arg2, ...argN) => expression
+// let func321 = function (arg1, arg2, ...argN) { return expression}
+let sum
+sum = (a: number, b: number) => a + b
+sum = (a: number, b: number) => {
+  let s = a + b
+  return s
+}
+
+let varFromServer = '' ?? 0 ?? 'not'
+console.log(undefined == null) // равны только друг другу
+
+let adas =`
+daasdas
+dsfsdfsd
+sdffsd
+`
+adas ='daasda\nsdsfsdfsd\nsdffsd'

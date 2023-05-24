@@ -4,12 +4,30 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    h2 {
-      color:red;
-    }
-    .hidden {
+  
+  <!-- ************ TESTS ************** -->
+  <!-- добавим стили mocha для отображения результатов -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css"> -->
+  <!-- добавляем сам фреймворк mocha -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script> -->
+  <!-- <script>
+    // включаем режим тестирования в стиле BDD
+    mocha.setup('bdd');
+    </script> -->
+  <!-- добавим chai -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+  <script>
+    // chai предоставляет большое количество функций. Объявим assert глобально
+    let assert = chai.assert;
+    </script> -->
+    <!-- ************ TESTS ************** -->
+    
+    <title>Document</title>
+    <style>
+      h2 {
+        color:red;
+      }
+      .hidden {
       display: none;
     }
     a {
@@ -44,8 +62,48 @@
     <button class="hidden">Проверить пароль</button>
     <p></p>
   </div>
-  <script>
-  </script>
-  <script src="dist/script.js"></script>
+  <!-- <script>
+    describe("pow", function() {
+
+      describe("возводит x в степень 3", function() {
+
+        function makeTest(x) {
+          let expected = x * x * x;
+          it(`${x} в степени 3 будет ${expected}`, function() {
+            assert.equal(pow(x, 3), expected);
+          });
+        }
+
+        for (let x = 1; x <= 5; x++) {
+          makeTest(x);
+        }
+
+      });
+
+      it("для отрицательных n возвращает NaN", function() {
+        assert.isNaN(pow(2, -1));
+      });
+
+      it("для дробных n возвращает NaN", function() {
+        assert.isNaN(pow(2, 1.5));
+      });
+
+  });
+  </script> -->
+
+
+<!-- ************ TESTS ************** -->
+
+<!-- элемент с id="mocha" будет содержать результаты тестов -->
+  <!-- <script src="test.js"></script>
+  <div id="mocha"></div> -->
+
+  <!-- запускаем тесты! -->
+  <!-- <script>
+    mocha.run();
+  </script> -->
+<!-- ************ TESTS ************** -->
+
+<script src="dist/script.js"></script>
 </body>
 </html>

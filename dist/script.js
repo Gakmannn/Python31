@@ -548,3 +548,52 @@ dsfsdfsd
 sdffsd
 `;
 adas = 'daasda\nsdsfsdfsd\nsdffsd';
+for (let i = 0; i < 10; i++) {
+    i;
+}
+/**
+ * Возвращает x, возведённое в n-ную степень.
+ * В случае, если n не целое, или отрицательное, возвращает NAN
+ *
+ * @param {number} x Возводимое в степень число.
+ * @param {number} n Степень, должна быть натуральным числом.
+ * @return {number} x, возведённое в n-ную степень.
+ */
+function pow(x, n) {
+    if (n < 0)
+        return NaN;
+    if (Math.round(n) != n)
+        return NaN;
+    return x ** n;
+}
+pow(2, 2);
+// Создание пустого объекта
+const user = {}; // синтаксис "литерал объекта"
+const user1 = new Object(); // синтаксис "конструктор объекта"
+console.log(user);
+user.age = 18;
+user['two words'] = 'ok';
+console.log(user);
+user[18] = 18;
+user['two words'] = 'not';
+console.log(user);
+const car = {
+    'whells': 4,
+    hP: 200,
+    engine: 'v8',
+    'two words': 'yes',
+};
+console.log({ ...car });
+let horsePowers = 'hP';
+console.log(car[horsePowers]);
+delete car['two words'];
+car.whells = 5;
+console.log(car);
+function makeUser(name, age) {
+    return {
+        name: name,
+        age,
+    };
+}
+let user2 = makeUser("John", 40);
+console.log(user2);

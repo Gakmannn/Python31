@@ -800,6 +800,7 @@ function fractionSum(f1: any, f2: any) {
   return fractionReduction(sum)
 }
 
+console.log(fractionSum(fraction1, fraction2))
 const sumResult = fractionSum(fraction1, fraction2)
 const subResult = fractionSubtraction(fraction1, fraction2)
 const multResult = fractionMultiplication(fraction1, fraction2)

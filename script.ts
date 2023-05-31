@@ -716,11 +716,99 @@ function makeUser(name:string, age:number) {
     name: name,
     age, // имя переменной становится свойством, а её значение,- значением
     // ...другие свойства
-  };
+  } as any
 }
 
 let user2 = makeUser("John", 40);
 console.log(user2)
+console.log('age' in user2) // Проверка на существование свойства в объекте
+const keyString = 'name'
+console.log(keyString in user2) // 'name' in user2
+
+for (let key in user2) {
+  console.log(`${key}:${user2[key]}`)
+}
+
+let codes = {
+  "49": "Германия",
+  "41": "Швейцария",
+  "44": "Великобритания",
+  // ..,
+  "1": "США"
+}
+
+let codesKeys = 'Keys order: '
+for (let code in codes) {
+  codesKeys += code + ', '
+}
+console.log(codesKeys) // 1, 41, 44, 49
+
+// 1,2,3,5,6 - псевдо массив
+// one:1,two:2 - псевдо ассоциативный массив
+
+// Напишите код, выполнив задание из каждого пункта отдельной строкой:
+
+// Создайте пустой объект newUser.
+// Добавьте свойство name со значением John.
+// Добавьте свойство surname со значением Smith.
+// Измените значение свойства name на Pete.
+// Удалите свойство name из объекта.
+
+const newUser = {} as any
+newUser.name = 'John' // newUser['name'] = 'John'
+newUser.surname = 'Smith' // newUser['surname'] = 'Smith'
+newUser.name = 'Pete' // newUser['name'] = 'Pete'
+delete newUser.name
+
+// Напишите функцию isEmpty(obj), которая возвращает true, если у объекта нет свойств, иначе false.
+
+// Два одинаковых объекта никогда не будут равны, если их сравнивать в лоб
+const obj1 = {a:1}
+const obj2 = {a:1}
+console.log('obj1 === obj2', obj1 === obj2)
+console.log('obj1.a === obj2.a', obj1.a === obj2.a)
+console.log('JSON.stringify(obj1) === JSON.stringify(obj2)', JSON.stringify(obj1) === JSON.stringify(obj2))
+
+function isEmpty(obj:any) {
+  // 1 решение
+  // return JSON.stringify(obj) === '{}'
+
+  // 2 решение
+  // for (let key in obj) {
+  //   if (key) return false
+  // }
+  // return true
+
+  // 3 решение
+  return Object.keys(obj).length ? false : true
+}
+
+console.log('isEmpty({})', isEmpty({})) //true
+console.log('isEmpty({a:1})', isEmpty({a:1})) //false
+
+// У нас есть объект, в котором хранятся зарплаты нашей команды:
+
+let salaries = {
+  John: 100,
+  Ann: '160$',
+  Pete: 130
+} as any
+
+let salariesSum = 0
+for (let key in salaries) {
+  salariesSum += parseFloat(salaries[key])
+}
+console.log(salariesSum)
+
+// Создайте функцию multiplyNumeric(obj), которая умножает все числовые свойства объекта obj на 2.
+
+function multiplyNumeric(obj:any) {
+  for (let key in obj) {
+    if (typeof (obj[key]) == 'number') obj[key]*=2
+  }
+}
+multiplyNumeric(salaries)
+console.log(salaries)
 
 // Создать объект, хранящий в себе отдельно числитель и зна -
 // менатель дроби, и следующие функции для работы с этим объ -
@@ -731,32 +819,38 @@ console.log(user2)
 // 4 Функция деления 2 - х объектов - дробей.
 // 5 Функция сокращения объекта - дроби.
 
-const fraction1 = {
+type Fraction = {
+  numerator: number,
+  denominator: number
+}
+
+const fraction1:Fraction = {
   numerator: 2,
   denominator: 5
 }
-const fraction2 = {
+const fraction2: Fraction = {
   numerator: 2,
   denominator: 8
 }
 
 console.log(`${fraction1.numerator}/${fraction1.denominator} and ${fraction2.numerator}/${fraction2.denominator}`)
 
-function maxDenominator(f:any) {
+function maxDenominator(f: Fraction) {
   const min = f.numerator < f.denominator ? f.numerator : f.denominator
   for (let i = min; i > 1; i--) {
     if (f.numerator % i == 0 && f.denominator % i == 0) return i
   }
+  return 1
 }
 
-function fractionReduction(f: any) {
+function fractionReduction(f: Fraction) {
   const denominator = maxDenominator(f)
   f.numerator /= denominator 
   f.denominator /= denominator
   return f
 }
 
-function fractionSubtraction(f1: any, f2: any) {
+function fractionSubtraction(f1: Fraction, f2: Fraction) {
   const ajusted = fractionAjust(f1, f2)
   const sub = {
     numerator: ajusted.f1.numerator - ajusted.f2.numerator,
@@ -765,7 +859,7 @@ function fractionSubtraction(f1: any, f2: any) {
   return fractionReduction(sub)
 }
 
-function fractionAjust(f1: any, f2: any) {
+function fractionAjust(f1: Fraction, f2: Fraction) {
   const f1D = f1.denominator
   const f2D = f2.denominator
   f1.numerator *= f2D
@@ -775,7 +869,7 @@ function fractionAjust(f1: any, f2: any) {
   return {f1, f2}
 }
 
-function fractionMultiplication(f1: any, f2: any) {
+function fractionMultiplication(f1: Fraction, f2: Fraction) {
   const mult = {
     numerator: f1.numerator * f2.numerator,
     denominator: f1.denominator * f2.denominator,
@@ -783,7 +877,7 @@ function fractionMultiplication(f1: any, f2: any) {
   return fractionReduction(mult)
 }
 
-function fractionDivision(f1: any, f2: any) {
+function fractionDivision(f1: Fraction, f2: Fraction) {
   const div = {
     numerator: f1.numerator * f2.denominator,
     denominator: f1.denominator * f2.numerator,
@@ -791,7 +885,7 @@ function fractionDivision(f1: any, f2: any) {
   return fractionReduction(div)
 }
 
-function fractionSum(f1: any, f2: any) {
+function fractionSum(f1: Fraction, f2: Fraction) {
   const ajusted = fractionAjust(f1, f2)
   const sum = {
     numerator: ajusted.f1.numerator + ajusted.f2.numerator,
@@ -800,7 +894,6 @@ function fractionSum(f1: any, f2: any) {
   return fractionReduction(sum)
 }
 
-console.log(fractionSum(fraction1, fraction2))
 const sumResult = fractionSum(fraction1, fraction2)
 const subResult = fractionSubtraction(fraction1, fraction2)
 const multResult = fractionMultiplication(fraction1, fraction2)

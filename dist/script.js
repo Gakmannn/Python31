@@ -597,14 +597,77 @@ function makeUser(name, age) {
 }
 let user2 = makeUser("John", 40);
 console.log(user2);
-// Создать объект, хранящий в себе отдельно числитель и зна -
-// менатель дроби, и следующие функции для работы с этим объ -
-// ектом.
-// 1 Функция сложения 2 - х объектов - дробей.
-// 2 Функция вычитания 2 - х объектов - дробей.
-// 3 Функция умножения 2 - х объектов - дробей.
-// 4 Функция деления 2 - х объектов - дробей.
-// 5 Функция сокращения объекта - дроби.
+console.log('age' in user2); // Проверка на существование свойства в объекте
+const keyString = 'name';
+console.log(keyString in user2); // 'name' in user2
+for (let key in user2) {
+    console.log(`${key}:${user2[key]}`);
+}
+let codes = {
+    "49": "Германия",
+    "41": "Швейцария",
+    "44": "Великобритания",
+    // ..,
+    "1": "США"
+};
+let codesKeys = 'Keys order: ';
+for (let code in codes) {
+    codesKeys += code + ', ';
+}
+console.log(codesKeys); // 1, 41, 44, 49
+// 1,2,3,5,6 - псевдо массив
+// one:1,two:2 - псевдо ассоциативный массив
+// Напишите код, выполнив задание из каждого пункта отдельной строкой:
+// Создайте пустой объект newUser.
+// Добавьте свойство name со значением John.
+// Добавьте свойство surname со значением Smith.
+// Измените значение свойства name на Pete.
+// Удалите свойство name из объекта.
+const newUser = {};
+newUser.name = 'John'; // newUser['name'] = 'John'
+newUser.surname = 'Smith'; // newUser['surname'] = 'Smith'
+newUser.name = 'Pete'; // newUser['name'] = 'Pete'
+delete newUser.name;
+// Напишите функцию isEmpty(obj), которая возвращает true, если у объекта нет свойств, иначе false.
+// Два одинаковых объекта никогда не будут равны, если их сравнивать в лоб
+const obj1 = { a: 1 };
+const obj2 = { a: 1 };
+console.log('obj1 === obj2', obj1 === obj2);
+console.log('obj1.a === obj2.a', obj1.a === obj2.a);
+console.log('JSON.stringify(obj1) === JSON.stringify(obj2)', JSON.stringify(obj1) === JSON.stringify(obj2));
+function isEmpty(obj) {
+    // 1 решение
+    // return JSON.stringify(obj) === '{}'
+    // 2 решение
+    // for (let key in obj) {
+    //   if (key) return false
+    // }
+    // return true
+    // 3 решение
+    return Object.keys(obj).length ? false : true;
+}
+console.log('isEmpty({})', isEmpty({})); //true
+console.log('isEmpty({a:1})', isEmpty({ a: 1 })); //false
+// У нас есть объект, в котором хранятся зарплаты нашей команды:
+let salaries = {
+    John: 100,
+    Ann: '160$',
+    Pete: 130
+};
+let salariesSum = 0;
+for (let key in salaries) {
+    salariesSum += parseFloat(salaries[key]);
+}
+console.log(salariesSum);
+// Создайте функцию multiplyNumeric(obj), которая умножает все числовые свойства объекта obj на 2.
+function multiplyNumeric(obj) {
+    for (let key in obj) {
+        if (typeof (obj[key]) == 'number')
+            obj[key] *= 2;
+    }
+}
+multiplyNumeric(salaries);
+console.log(salaries);
 const fraction1 = {
     numerator: 2,
     denominator: 5
@@ -620,6 +683,7 @@ function maxDenominator(f) {
         if (f.numerator % i == 0 && f.denominator % i == 0)
             return i;
     }
+    return 1;
 }
 function fractionReduction(f) {
     const denominator = maxDenominator(f);
@@ -666,7 +730,6 @@ function fractionSum(f1, f2) {
     };
     return fractionReduction(sum);
 }
-console.log(fractionSum(fraction1, fraction2));
 const sumResult = fractionSum(fraction1, fraction2);
 const subResult = fractionSubtraction(fraction1, fraction2);
 const multResult = fractionMultiplication(fraction1, fraction2);

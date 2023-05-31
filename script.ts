@@ -721,3 +721,90 @@ function makeUser(name:string, age:number) {
 
 let user2 = makeUser("John", 40);
 console.log(user2)
+
+// Создать объект, хранящий в себе отдельно числитель и зна -
+// менатель дроби, и следующие функции для работы с этим объ -
+// ектом.
+// 1 Функция сложения 2 - х объектов - дробей.
+// 2 Функция вычитания 2 - х объектов - дробей.
+// 3 Функция умножения 2 - х объектов - дробей.
+// 4 Функция деления 2 - х объектов - дробей.
+// 5 Функция сокращения объекта - дроби.
+
+const fraction1 = {
+  numerator: 2,
+  denominator: 5
+}
+const fraction2 = {
+  numerator: 2,
+  denominator: 8
+}
+
+console.log(`${fraction1.numerator}/${fraction1.denominator} and ${fraction2.numerator}/${fraction2.denominator}`)
+
+function maxDenominator(f:any) {
+  const min = f.numerator < f.denominator ? f.numerator : f.denominator
+  for (let i = min; i > 1; i--) {
+    if (f.numerator % i == 0 && f.denominator % i == 0) return i
+  }
+}
+
+function fractionReduction(f: any) {
+  const denominator = maxDenominator(f)
+  f.numerator /= denominator 
+  f.denominator /= denominator
+  return f
+}
+
+function fractionSubtraction(f1: any, f2: any) {
+  const ajusted = fractionAjust(f1, f2)
+  const sub = {
+    numerator: ajusted.f1.numerator - ajusted.f2.numerator,
+    denominator: f1.denominator,
+  }
+  return fractionReduction(sub)
+}
+
+function fractionAjust(f1: any, f2: any) {
+  const f1D = f1.denominator
+  const f2D = f2.denominator
+  f1.numerator *= f2D
+  f1.denominator *= f2D
+  f2.numerator *= f1D
+  f2.denominator *= f1D
+  return {f1, f2}
+}
+
+function fractionMultiplication(f1: any, f2: any) {
+  const mult = {
+    numerator: f1.numerator * f2.numerator,
+    denominator: f1.denominator * f2.denominator,
+  }
+  return fractionReduction(mult)
+}
+
+function fractionDivision(f1: any, f2: any) {
+  const div = {
+    numerator: f1.numerator * f2.denominator,
+    denominator: f1.denominator * f2.numerator,
+  }
+  return fractionReduction(div)
+}
+
+function fractionSum(f1: any, f2: any) {
+  const ajusted = fractionAjust(f1, f2)
+  const sum = {
+    numerator: ajusted.f1.numerator + ajusted.f2.numerator,
+    denominator: ajusted.f1.denominator
+  }
+  return fractionReduction(sum)
+}
+
+const sumResult = fractionSum(fraction1, fraction2)
+const subResult = fractionSubtraction(fraction1, fraction2)
+const multResult = fractionMultiplication(fraction1, fraction2)
+const divResult = fractionDivision(fraction1, fraction2)
+console.log(`sum = ${sumResult.numerator}/${sumResult.denominator}`) 
+console.log(`sub = ${subResult.numerator}/${subResult.denominator}`) 
+console.log(`mult = ${multResult.numerator}/${multResult.denominator}`) 
+console.log(`div = ${divResult.numerator}/${divResult.denominator}`) 

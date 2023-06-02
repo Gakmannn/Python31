@@ -738,3 +738,121 @@ console.log(`sum = ${sumResult.numerator}/${sumResult.denominator}`);
 console.log(`sub = ${subResult.numerator}/${subResult.denominator}`);
 console.log(`mult = ${multResult.numerator}/${multResult.denominator}`);
 console.log(`div = ${divResult.numerator}/${divResult.denominator}`);
+let messageStr = "Привет!";
+let phraseStr = messageStr;
+console.log('messageStr', messageStr);
+console.log('phraseStr', phraseStr);
+phraseStr += ' User!';
+console.log('messageStr', messageStr);
+console.log('phraseStr', phraseStr);
+let messageObj = { text: "Привет!" };
+let phraseObj = messageObj;
+console.log('messageObj', messageObj);
+console.log('phraseObj', phraseObj);
+phraseObj.text += ' User!';
+console.log('messageObj', messageObj);
+console.log('phraseObj', phraseObj);
+// Два объекта равны только в том случае, если это один и тот же объект
+console.log('phraseObj == messageObj', phraseObj == messageObj);
+let mainUser = {
+    name: "John",
+    age: 30,
+    work: {
+        salari: 100
+    },
+    sayHi() {
+        // "this" - это "текущий объект"
+        console.log('my name is ' + this.name);
+    },
+    sayHi2: function () {
+        console.log('my name is ' + this.name);
+    },
+    // не используется в объектах для доступа к this объекта, т.к. не имеет доступа к this объекта
+    arrowMethod: () => {
+        // @ts-ignore
+        console.log(this);
+    },
+    sayAnyfing,
+};
+mainUser.sayHi = function () {
+    console.log('my name is ' + this.name + '. My salari is ' + this.work.salari);
+};
+let clone = {}; // новый пустой объект
+// давайте скопируем все свойства user в него
+// 1 способ клонирования объектов. Копирование свойств объекта в цикле. Надо помнить о вложенных объектах
+// for (let key in mainUser) {
+//   if (typeof(mainUser[key]) == 'object') {
+//     clone[key] = {}
+//     for (let innerKey in mainUser[key]) {
+//       clone[key][innerKey] = mainUser[key][innerKey]
+//     }
+//   } else {
+//     clone[key] = mainUser[key]
+//   }
+// }
+// 2 Spred (... троеточие) оператор (развёртывание). Надо помнить о вложенных объектах
+clone = { ...mainUser, work: { ...mainUser.work } };
+// 3 Object.assign. Надо помнить о вложенных объектах
+// clone = Object.assign({}, mainUser, {work: { ...mainUser.work }} )
+// Для плоских объектов доступны 2 варианта записи
+// Object.assign(clone, mainUser)
+// clone = Object.assign({}, mainUser)
+// 4 Преобразование в JSON (строка) и назад в объект. Не надо думать о вложенности, но теряются Symbol и методы
+// clone = JSON.parse(JSON.stringify(mainUser))
+// console.log(JSON.stringify(mainUser)) 
+// 5  structuredClone(). Выдаёт ошибку, если в объекте присутствует метод
+// clone = structuredClone(mainUser)
+// теперь clone это полностью независимый объект с тем же содержимым
+clone.name = "Pete"; // изменим в нём данные
+clone.work.salari = 200;
+console.log('mainUser.name', mainUser.name); // все ещё John в первоначальном объекте
+console.log('mainUser.work.salari', mainUser.work.salari);
+console.log('clone.name', clone.name); // уже Pete
+console.log('clone.work.salari', clone.work.salari);
+mainUser.sayHi();
+clone.sayHi();
+// Стрелочные функции не имеют своего this
+console.log(this);
+const arrow = () => {
+    // @ts-ignore
+    console.log(this);
+};
+arrow();
+function sayAnyfing() {
+    // @ts-ignore
+    console.log(this.name);
+    const arrow = () => {
+        // @ts-ignore
+        console.log(this);
+    };
+    arrow();
+}
+mainUser.sayAnyfing();
+clone['sayAnyfing']();
+mainUser.arrowMethod();
+let ladder = {
+    step: 0,
+    up() {
+        this.step++;
+        return this;
+    },
+    down() {
+        this.step--;
+        return this;
+    },
+    showStep: function () {
+        console.log(this.step);
+        return this;
+    }
+};
+// Измените код методов up, down и showStep таким образом, чтобы их вызов можно было сделать по цепочке, например так:
+// ladder.up().up().down().showStep().down().showStep(); // показывает 1 затем 0
+// Чаще всего цепочка вызовов продолжается с новой строки
+ladder
+    .up()
+    .up()
+    .down()
+    .showStep() // 1
+    .down()
+    .showStep(); // 0 
+// Добавили к методам возврат this (текущий объект)

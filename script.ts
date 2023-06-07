@@ -1036,3 +1036,101 @@ ladder
   .down()
   .showStep() // 0 
 // Добавили к методам возврат this (текущий объект)
+
+// !Объекты.Основы ***ПРОПУСКАЕМ***
+// !Конструктор, оператор "new"
+// !Опциональная цепочка '?.'
+// !Тип данных Symbol
+// !Преобразование объектов в примитивы
+
+type Post = {
+  h1: string,
+  image: string,
+  text: string,
+  paragraph?: string,
+  tags: Array<string>,
+  author?: Record<string,string>
+}
+
+const posts: Array<Post> = [
+  {
+    "h1": '121dfsafsd',
+    image: 'sdfsdf.jpg',
+    text: 'sdfsffsddfs \n dfsdsdfsfs',
+    tags: [],
+    author: {
+      name: 'author name'
+    }
+  },
+  {
+    h1: '121dfsafsd1',
+    image: 'sdfsdf.jpg',
+    text: 'sdfsffsddfs2',
+    tags: ['fsfds', 'sfsdf'],
+    author: {
+      nic: 'author nic'
+    }
+  }
+]
+
+for (let post of posts) {
+  post.paragraph = post.text.split('\n')[0]
+  document.write(`<h2>${post.h1}</h2>`)
+  // let author
+  // if (post.author) {
+  //   author = post.author.name ? post.author.name.toUpperCase() : post.author.nic.toUpperCase()
+  // }
+  const author = post?.author?.name ? post.author.name.toUpperCase() : post?.author?.nic.toUpperCase()
+  document.write(`<p>${author}</p>`)
+  document.write(`<br>`)
+  for (let i = 0; i < post.tags?.length; i++ ) {
+    document.write(post.tags?.pop() as string)
+    }
+    document.write(`<br>`)
+  
+}
+
+console.log(posts)
+
+const userObj = { 
+  // address: {}
+} as any // пользователь без свойства "address"
+
+// Мы НЕ можем использовать ?. для записи, т.к. опциональная цепочка ?. не имеет смысла в левой части присваивания
+// userObj?.address?.street = 'roz' // Левая часть выражения присваивания не может быть обращением к необязательному свойству
+// то же самое что написать undefined = 'roz'
+// Так создаются сложные объекты необходимой конфигурации
+
+let street // может быть, а может и не быть
+
+if (street && userObj.address) {
+  userObj.address.street = street
+} else if (street && !userObj.address) {
+  userObj.address = {}
+  userObj.address.street = street
+}
+
+// console.log(userObj.address.street) // Ошибка!
+console.log(userObj.address ? userObj.address.street : undefined) // развёрнутая запись
+console.log(userObj.address?.['street']?.name) // сокращённая запись
+
+fetch('http://jservice.io/api/random?count=1').
+  then((response) => {
+    return response.json()
+  })
+  .then((data) => {
+    console.log(data)
+    data = []
+    console.log(data[0]?.category?.id)
+  })
+
+console.log("\"Привет\"")
+console.log(JSON.stringify(posts))
+
+// Синтаксис опциональной цепочки?.имеет три формы:
+
+// obj?.prop – возвращает obj.prop если obj существует, в противном случае undefined.
+// obj?.[prop] – возвращает obj[prop] если obj существует, в противном случае undefined.
+// obj.method?.() – вызывает obj.method(), если obj.method существует, в противном случае возвращает undefined.
+
+// Мы должны использовать ?. осторожно, только там, где по логике кода допустимо, что левая часть не существует. Чтобы он не скрывал от нас ошибки программирования, если они возникнут

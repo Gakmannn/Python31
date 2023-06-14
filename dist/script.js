@@ -1018,3 +1018,122 @@ function randomInt(min, max) {
 console.log('Math.min(1,1,5,7,8,15,47,32)', Math.min(1, 1, 5, 7, 8, 15, 47, 32));
 console.log('Math.max(1,1,5,7,8,15,47,32)', Math.max(1, 1, 5, 7, 8, 15, 47, 32));
 console.log('Math.max(...[1, 1, 5, 7, 8, 15, 47, 32])', Math.max(...[1, 1, 5, 7, 8, 15, 47, 32])); // Можем развернуть массив используя spred оператор
+// 10. Запросите у пользователя целое число и выведите в ответ, четное число или нет.В задании используйте логические операторы. В задании не надо использовать if или switch
+// let numFromUser = +(prompt('Введите целое число') as string)
+// const evenOdd = (numFromUser % 2 == 0 && 'четное') || 'не четное' 
+// console.log(evenOdd)
+let guestList = `Guests:
+* John
+* Pete
+* Mary
+`;
+console.log(guestList);
+// 'sdfsdfdf\'sd'
+// "sdfsdfdf\"sd"
+// 'dsfsdfs "dsfsfd" fdssdf'
+// "sdfsdf sdf 'dfsfsfd' fdsfds"
+// `fgdfg 'sdfsfsd'sdfsdf "sdfsdfsd" sfd`
+console.log(`My\n`.length); // 3 (\n - один спецсимвол)
+let testStr = `Hello`;
+// получаем первый символ
+console.log('testStr[0]', testStr[0]); // H
+console.log('testStr.at(0)', testStr.at(0)); // H
+// получаем последний символ
+console.log('testStr[testStr.length - 1]', testStr[testStr.length - 1]); // o
+console.log('testStr.at(-1)', testStr.at(-1)); // o
+for (let char of "Hello") {
+    console.log(char); // H,e,l,l,o (char — сначала "H", потом "e", потом "l" и т.д.)
+}
+testStr = 'Hi sfdffds';
+console.log(testStr);
+// testStr[0] = 'h'; // ошибка. Разрешено только чтение
+testStr = testStr[0].toLowerCase() + testStr.slice(1, 8) + testStr[8].toUpperCase() + testStr.slice(9); // заменяем строку
+console.log(testStr);
+console.log('Interface'.toUpperCase()); // INTERFACE
+console.log('Interface'.toLowerCase()); // interface
+//  Поиск подстроки
+// Первый метод — str.indexOf(substr, pos).
+// Он ищет подстроку substr в строке str, начиная с позиции pos, и возвращает позицию, на которой располагается совпадение, либо - 1 при отсутствии совпадений.
+testStr = 'Widget with id';
+console.log('testStr.indexOf(\'Widget\')', testStr.indexOf('Widget')); // 0, потому что подстрока 'Widget' найдена в начале
+console.log('testStr.indexOf(\'widget\')', testStr.indexOf('widget')); // -1, совпадений нет, поиск чувствителен к регистру
+console.log('testStr.indexOf("id")', testStr.indexOf("id")); // 1, подстрока "id" найдена на позиции 1 (..idget with id)
+let index = 0;
+while (true) {
+    index = testStr.indexOf("id", index);
+    if (index != -1) {
+        console.log('Подстрока "id" найдена на позиции', index);
+        index++;
+    }
+    else {
+        break;
+    }
+}
+// str.lastIndexOf(substr, position)
+// Также есть похожий метод str.lastIndexOf(substr, position), который ищет с конца строки к её началу.
+// Он используется тогда, когда нужно получить самое последнее вхождение: перед концом строки или начинающееся до(включительно) определённой позиции.
+console.log('testStr.lastIndexOf("id")', testStr.lastIndexOf("id"));
+// includes, startsWith, endsWith
+console.log("Widget with id".includes("Widget")); // true
+console.log("Hello".includes("Bye")); // false
+console.log("Midget".includes("id")); // true
+console.log("Midget".includes("id", 3)); // false, поиск начат с позиции 3
+console.log("Widget".startsWith("Wid")); // true, "Wid" — начало "Widget"
+console.log("Widget".endsWith("get")); // true, "get" — окончание "Widget"
+console.log("Widget".endsWith("get") ? 'Строка "Widget" заканчивается на подстроку "get"' : 'Строка "Widget" не заканчивается на подстроку "get"');
+// Получение подстроки
+// ДОСТАТОЧНО ЗАПОМНИТЬ slice
+// str.slice(start[, end])
+// Возвращает часть строки от start до(не включая) end.
+console.log('"Widget with id".slice(7)', testStr.slice(7));
+console.log('"Widget with id".slice(1,3)', testStr.slice(1, 3));
+console.log('"Widget with id".slice(-2)', testStr.slice(-2));
+// str.substring(start[, end])
+// Возвращает часть строки между start и end(не включая) end.
+// Это — почти то же, что и slice, но можно задавать start больше end.
+// Если start больше end, то метод substring сработает так, как если бы аргументы были поменяны местами.
+console.log('"Widget with id".substring(7)', testStr.substring(7));
+console.log('"Widget with id".substring(3, 1)', testStr.substring(3, 1));
+// Отрицательные значения substring, в отличие от slice, не поддерживает, они интерпретируются как 0
+console.log('"Widget with id".substring(-2)', testStr.substring(-2)); // Widget with id
+// str.substr(start[, length])
+// Возвращает часть строки от start длины length.
+// В противоположность предыдущим методам, этот позволяет указать длину вместо конечной позиции
+console.log('"Widget with id".substr(7)', testStr.substr(7));
+console.log('"Widget with id".substr(3, 1)', testStr.substr(1, 2));
+console.log('"Widget with id".substr(-2)', testStr.substr(-2));
+console.log('z > Z', 'z' > 'Z'); // true
+console.log('"z".codePointAt(0)', "z".codePointAt(0)); // 122
+console.log('"Z".codePointAt(0)', "Z".codePointAt(0)); // 90
+console.log('"😫".codePointAt(0)', "😫".codePointAt(0)); // 128555
+console.log('"😫".length', "😫".length); // 2
+console.log('String.fromCodePoint(90)', String.fromCodePoint(90)); // Z
+console.log('String.fromCodePoint(90)', String.fromCodePoint(128555)); // 😫
+str = '';
+for (let i = 65; i <= 220; i++) {
+    str += String.fromCodePoint(i);
+}
+console.log(str);
+// ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+// ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
+// #### Правильное сравнение строк ####
+// str.localeCompare(str2) возвращает число, которое показывает, какая строка больше в соответствии с правилами языка:
+// Отрицательное число, если str меньше str2.
+// Положительное число, если str больше str2.
+// 0, если строки равны.
+console.log('Österreich' > 'Zealand'); // true. Сравнение по кодам символов
+console.log('Österreich'.localeCompare('Zealand')); // -1. Сравнение по положению в алфавите
+// Методы replace и replaceAll возвращают новую строку 
+str = 'Ослик Иа-Иа посмотрел на виадук';
+console.log(str.replace('Иа', 'Юю')); // меняет только первое совпадение
+console.log(str.replaceAll('Иа', 'Юю')); // меняет только первое совпадение
+console.log(str); // изначальная строка осталась той же самой
+str = str.replaceAll('Иа', 'Юю'); // заменили старую строку новой
+console.log(str); // новая строка
+// метод split(simb) разбивает строку на массив строк по символу-разделителю simb
+console.log(str.split(' '));
+// метод join(simb) соединяет массив в строку символом-разделителем simb
+console.log(str.split(' ').join('_'));
+console.log([0, 1, 2, 3, 5, 5].join('_^^_'));
+console.log('"   s   t   r    ".trim()', "   s   t   r    ".trim()); // убирает пробелы в начале и конце строки
+console.log('"abc".repeat(3)', "abc".repeat(3));

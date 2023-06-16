@@ -1266,3 +1266,8 @@ arr = [...fruits]; // Копируем массив
 fruits.push('Кокос');
 console.log('fruits', fruits);
 console.log('arr', arr); // arr не изменился
+const newArr = [];
+for (let i = 0; i < 10; i++) {
+    newArr[i] = randomInt(0, 20);
+}
+console.log(newArr);

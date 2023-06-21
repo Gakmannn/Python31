@@ -1617,3 +1617,132 @@ for (let i=0; i<10; i++) {
   newArr[i] = randomInt(0,20)
 }
 console.log(newArr)
+
+// Задание 1
+// Создать массив «Список покупок». Каждый элемент массива является объектом, который содержит название продукта, необходимое количество и куплен или нет. Написать несколько функций для работы с таким массивом.
+// 1 Вывод всего списка на экран таким образом, чтобы сначала шли некупленные продукты, а потом – купленные.
+// 2 Добавление покупки в список. Учтите, что при добавлении покупки с уже существующим в списке продуктом, необходимо увеличивать количество в существующей покупке, а не добавлять новую.
+// 3 Покупка продукта. Функция принимает название продукта и отмечает его как купленный.
+
+const purchase = [
+  {
+    name: 'a',
+    count: 10,
+    purchased: true,
+  },
+  {
+    name: 'b',
+    count: 5,
+    purchased: false,
+  },
+  {
+    name: 'c',
+    count: 3,
+    purchased: true,
+  },
+  {
+    name: 'd',
+    count: 1,
+    purchased: false,
+  },
+]
+
+const purchasedOl = document.querySelector('.purchase')
+const showPurchaseButton = document.querySelector('.showPurchase')
+const addPurchaseButton = document.querySelector('.addPurchase')
+const setPurchasedButton = document.querySelector('.setPurchased')
+
+
+function showPurchase() {
+  if (purchasedOl) {
+    purchasedOl.innerHTML = ``
+  }
+  for (let el of purchase) {
+    if (!el.purchased) {
+      if (purchasedOl) {
+        purchasedOl.innerHTML += `<li>${el.name} необходимо купить ${el.count} штук</li>`
+      }
+    }
+  }
+  for (let el of purchase) {
+    if (el.purchased) {
+      if (purchasedOl) {
+        purchasedOl.innerHTML += `<li>${el.name} куплено ${el.count} штук</li>`
+      }
+    }
+  }
+}
+
+function addPurchase() {
+  const name = prompt('Введите назавание покупки') as string
+  const count = +(prompt('Введите количество') as string)
+  let find = false
+  for (let el of purchase) {
+    if (el.name == name) {
+      find = true
+      el.count += count
+    }
+  }
+  if (!find) {
+    purchase.push({
+      name,
+      count,
+      purchased: false
+    })
+  }
+  showPurchase()
+}
+
+function setPurchased() {
+  const name = prompt('Введите назавание покупки') as string
+  for (let el of purchase) {
+    if (el.name == name) {
+      el.purchased = true
+    }
+  }
+  showPurchase()
+}
+
+showPurchaseButton?.addEventListener('click', showPurchase)
+addPurchaseButton?.addEventListener('click', addPurchase)
+setPurchasedButton?.addEventListener('click', setPurchased)
+
+// Задание 3
+// Создать массив css - стилей(цвет, размер шрифта, выравнивание, подчеркивание и т.д.).Каждый элемент массива – это объект, состоящий из двух свойств: название стиля и значение стиля.
+// Написать функцию, которая принимает массив стилей и текст, и выводит этот текст с помощью document.write() в тегах <p> </p>, добавив в открывающий тег атрибут style со всеми стилями, перечисленными в массиве.
+
+const styleRed = [
+  {
+    name: 'color',
+    value: 'red',
+  },
+  {
+    name: 'text-decoration',
+    value: 'underline',
+  },
+]
+const styleGreen = [
+  {
+    name: 'color',
+    value: 'green',
+  },
+  {
+    name: 'font-size',
+    value: '20px',
+  },
+]
+
+const printTextDiv = document.querySelector('.printText')
+
+function printText(style:any[], text:string) {
+  let styleStr = ''
+  for (let el of style) {
+    styleStr += `${el.name}:${el.value};`
+  }
+  if (printTextDiv) {
+    printTextDiv.innerHTML += `<p style=${styleStr}>${text}</p>`
+  }
+}
+
+printText(styleRed, 'fsdfsd sdf sdf sdf sg erwtw ')
+printText(styleGreen, 'fsdfsd sdf sdf sdf sg erwtw sdf sdfsdf sdf ')

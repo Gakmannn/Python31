@@ -1387,3 +1387,21 @@ function printText(style, text) {
 }
 printText(styleRed, 'fsdfsd sdf sdf sdf sg erwtw ');
 printText(styleGreen, 'fsdfsd sdf sdf sdf sg erwtw sdf sdfsdf sdf ');
+const rectangle = {
+    x1: 10,
+    y1: 18,
+    x2: 16,
+    y2: 0
+};
+function getRectWidth(rectangle) {
+    return rectangle.x2 - rectangle.x1;
+}
+function getRectHeight(rectangle) {
+    return rectangle.y1 - rectangle.y2;
+}
+function getRectArea(rectangle) {
+    return getRectWidth(rectangle) * getRectHeight(rectangle);
+}
+function getRectperimeter(rectangle) {
+    return getRectWidth(rectangle) * 2 + getRectHeight(rectangle) * 2;
+}

@@ -1746,3 +1746,23 @@ function printText(style:any[], text:string) {
 
 printText(styleRed, 'fsdfsd sdf sdf sdf sg erwtw ')
 printText(styleGreen, 'fsdfsd sdf sdf sdf sg erwtw sdf sdfsdf sdf ')
+
+const rectangle = {
+  x1: 10,
+  y1: 18,
+  x2: 16,
+  y2: 0
+}
+
+function getRectWidth(rectangle: any) {
+  return rectangle.x2 - rectangle.x1
+}
+function getRectHeight(rectangle: any) {
+  return rectangle.y1 - rectangle.y2
+}
+function getRectArea(rectangle:any) {
+  return getRectWidth(rectangle) * getRectHeight(rectangle)
+}
+function getRectperimeter(rectangle:any) {
+  return getRectWidth(rectangle) * 2 + getRectHeight(rectangle) * 2
+}

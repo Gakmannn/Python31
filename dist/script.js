@@ -1393,6 +1393,7 @@ const rectangle = {
     x2: 16,
     y2: 0
 };
+// debugger
 function getRectWidth(rectangle) {
     return rectangle.x2 - rectangle.x1;
 }
@@ -1405,3 +1406,12 @@ function getRectArea(rectangle) {
 function getRectperimeter(rectangle) {
     return getRectWidth(rectangle) * 2 + getRectHeight(rectangle) * 2;
 }
+function getOddEven(num) {
+    const arr = ['Четное', 'Нечетное'];
+    return (num % 2 == 0) && 'Четное' || 'Нечетное';
+    return arr[num % 2];
+    return ['Четное', 'Нечетное'][num % 2];
+}
+console.log(getOddEven(3));
+console.log(getOddEven(5));
+console.log(getOddEven(8));

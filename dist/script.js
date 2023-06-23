@@ -1263,6 +1263,11 @@ let matrix = [
 console.log(matrix[1][1]); // 5, центральный элемент
 console.log('fruits', fruits);
 arr = [...fruits]; // Копируем массив
+console.log(...fruits);
+// в console.log(подставятся все значения через запятую). Всё равно, что мы выделели все элементы массива, скопировали их и вставили в console.log
+console.log("Яблоко", "Апельсин", "Слива");
+console.log(fruits.slice()); // Ещё один вариант копирования массива
+console.log({ ...fruits });
 fruits.push('Кокос');
 console.log('fruits', fruits);
 console.log('arr', arr); // arr не изменился
@@ -1415,3 +1420,4 @@ function getOddEven(num) {
 console.log(getOddEven(3));
 console.log(getOddEven(5));
 console.log(getOddEven(8));
+console.log(Math.PI);

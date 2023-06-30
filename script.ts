@@ -644,15 +644,17 @@ let sayHi
 // Если нет параметра, обязательно писать круглые скобки
 sayHi = () => console.log("Hello!")
 sayHi = function () {
-  console.log("Привет");
+  return console.log("Привет");
 }
 // let func123 = (arg1, arg2, ...argN) => expression
 // let func321 = function (arg1, arg2, ...argN) { return expression}
 let sum
 sum = (a: number, b: number) => a + b
 sum = (a: number, b: number) => {
-  let s = a + b
-  return s
+  return a + b
+}
+sum = function(a: number, b: number) {
+  return a + b
 }
 
 let varFromServer = '' ?? 0 ?? 'not'
@@ -1492,7 +1494,7 @@ console.log('[]==[]',[]==[]) // Всегда false, потому что ссыл
 console.log('{}.toString()', {}.toString()) //[object Object]
 console.log('[1,2,[3,4],function() {}, {}].toString()', [1,2,[3,4],function() {}, {}].toString())
 
-const arr1 = [1,'dasd',[1,2,['fdgdfg',43]],{a:12}]
+const arr1 = [1, 'dasd', [1,2,['fdgdfg',43]], {a:12}]
 const arr2 = [1,'dasd',[1,2,['fdgdfg',43]],{b:20}]
 
 // Подходит для сравнения массивов с примитивными значениями
@@ -1786,3 +1788,183 @@ console.log(getOddEven(5))
 console.log(getOddEven(8))
 
 console.log(Math.PI)
+
+const USDSpan = document.getElementById('USD')
+
+const result = fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+  .then(data => data.json())
+  .then(data => {if (USDSpan) USDSpan.innerText = data.Valute.USD.Value})
+  .catch(e => console.log(e))
+
+// Создать еще один массив из 5 случайных чисел и написать
+// следующие функции.
+// 1
+// Функция принимает 2 массива и возвращает новый массив, в котором собраны все элементы из двух массивов
+// без повторений.
+
+function getUnicArray(arr1: any[] = [1, 1, 2, 3, 5, 8, 7, 9, 8, 7], arr2: any[] = [8, 17, 9, 88, 7]) {
+  // const arr = [] as any
+  // for (let el of arr1) {
+  //   if (!arr.includes(el)) arr.push(el)
+  // }
+  // for (let el of arr2) {
+  //   if (!arr.includes(el)) arr.push(el)
+  // }
+  // return arr
+  const set = new Set([...arr1,...arr2])
+  return Array.from(set)
+}
+
+console.log(getUnicArray())
+console.log(getUnicArray([4,89,63,156,62,4,8,7,5]))
+console.log(getUnicArray([4,89,63,62,4,8,7,5],[4,8,64,92,1356]))
+console.log(getUnicArray(['a','a','b','c'],['b','d','e','c']))
+
+console.log(arr1)
+for (let el of arr1) {
+  console.log('el', el)
+}
+for (let i=0; i<arr1.length; i++) {
+  console.log('элемент массива arr с индексом '+i, arr1[i])
+}
+
+
+for (let char of ['a','d','f','g','e']) {
+  if (char=='d') {
+    console.log('Встретили символ "d" и перешли на новую итерацию, игнорируя все следующие строки тела цикла')
+    continue
+  }
+  if (char=='g') {
+    console.log('Встретили символ "g" и вышли из цикла. следующие символы не попадут в переменную char')
+    break
+  }
+  console.log('char', char)
+}
+
+const strArr = ['cnhjrb texta', 'cnhjr1b texta', 'cnhj2rb texta', 'cnh4jrb texta', 'c5nhjrb te6xta', ' 1 ']
+console.log('ищем строку "1" в массиве '+strArr, strArr.includes(' 1 '))
+for (let str of strArr) {
+  console.log('ищем подстроку "1" в строке '+str, str.includes('1'))
+}
+
+// как работает includes в массиве
+const arrIncludes = (arr:any[],findEl:any) => {
+  for (let el of arr) {
+    if (el===findEl) return true
+  }
+  return false
+}
+console.log(arrIncludes(strArr, ' 1 '))
+
+// как работает includes в строке
+const strIncludes = (str: string, subStr: string) => {
+  for (let i=0; i<=(str.length-subStr.length); i++) {
+    if (str.slice(i, i+subStr.length) === subStr) return true
+  }
+  return false
+}
+console.log(strIncludes('cnhjr1b texta', '1b'))
+
+function powRecursive(x:number, n:number):number {
+  // Условие выхода
+  if (n == 1) {
+    return x
+  } else {
+    console.log('x =',x,'n =',n)
+    // Рекурсивная функция вызывает сама себя, пока не сработает условие выхода
+    return x * powRecursive(x, n - 1)
+  }
+}
+function pow2(x: number, n: number): number {
+  return (n == 1) ? x : (x * pow2(x, n - 1))
+}
+console.log(powRecursive(2, 3)) // 8
+
+// Напишите функцию sumTo(n), которая вычисляет сумму чисел 1 + 2 + ... + n.
+
+// sumTo(1) = 1
+// sumTo(2) = 2 + 1 = 3
+// sumTo(3) = 3 + 2 + 1 = 6
+// sumTo(4) = 4 + 3 + 2 + 1 = 10
+// ...
+// sumTo(100) = 100 + 99 + ... + 2 + 1 = 5050
+// Сделайте три варианта решения:
+
+// С использованием цикла.
+// Через рекурсию, т.к.sumTo(n) = n + sumTo(n - 1) for n > 1.
+// С использованием формулы арифметической прогрессии.
+// Пример работы вашей функции:
+
+
+// P.S.Какой вариант решения самый быстрый ? Самый медленный ? Почему ?
+
+// P.P.S.Можно ли при помощи рекурсии посчитать sumTo(100000) ?
+// O(n)
+function sumTo1(n: number) {
+  let sum = 0;
+  for (let i = 1; i <= n; i++) {
+    sum += i;
+  }
+  return sum;
+}
+// O(n) Ограничение стека вызовов 10000
+function sumTo2(n:number):number { 
+  return n==0 ? n : n + sumTo2(n-1)
+}
+// O(1)
+function sumTo3(n: number) {
+  return n * (n + 1) / 2
+}
+console.log(sumTo3(100)) // 5050
+
+// O(n2) Очень долгий метод через рекурсию
+function fib(n: number): number {
+  return n <= 1 ? n : fib(n - 1) + fib(n - 2)
+}
+
+console.log(fib(3)) // 2
+console.log(fib(7)) // 13
+
+// O(n) Такой способ называется динамическое программирование снизу вверх.
+function fib2(n:number) {
+  let a = 1
+  let b = 1
+  for (let i = 3; i <= n; i++) {
+    let c = a + b
+    a = b
+    b = c
+  }
+  return b
+}
+
+console.log(fib(3)) // 2
+console.log(fib(7)) // 13
+console.log(fib2(77)) // 5527939700884757
+
+
+const fibObject = {} as any
+
+function fib3(n: number): number {
+  if (n <= 1) {
+    return n
+  } else {
+    if (!fibObject[n]) {
+      fibObject[n] = fib3(n - 1) + fib3(n - 2) 
+    }
+    return fibObject[n]
+  } 
+}
+// console.log(fib3(7))
+// console.log(fib3(15))
+// console.log(fib3(25))
+// console.log(fib3(35))
+// console.log(fib3(45))
+// console.log(fib3(50))
+// console.log(fib3(55))
+// console.log(fib3(60))
+// console.log(fib3(65))
+// console.log(fib3(70))
+console.log(fib3(110))
+console.log(fibObject)
+
+

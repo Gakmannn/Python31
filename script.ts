@@ -828,7 +828,7 @@ type Fraction = {
 
 const fraction1:Fraction = {
   numerator: 2,
-  denominator: 5
+  denominator: 5,
 }
 const fraction2: Fraction = {
   numerator: 2,
@@ -1664,13 +1664,13 @@ function showPurchase() {
   if (purchasedOl) {
     purchasedOl.innerHTML = ``
   }
-  for (let el of purchase) {
+  purchase.forEach((el) => {
     if (!el.purchased) {
       if (purchasedOl) {
         purchasedOl.innerHTML += `<li>${el.name} необходимо купить ${el.count} штук</li>`
       }
     }
-  }
+  })
   for (let el of purchase) {
     if (el.purchased) {
       if (purchasedOl) {
@@ -2475,3 +2475,119 @@ calculator.addMethod("/", (a: number, b: number) => a / b)
 calculator.addMethod("**", (a: number, b: number) => a ** b)
 console.log(calculator.calculate("2 ** 3"))
 console.log(calculator.calculate("two plus 3"))
+
+let company = {
+  menegment:[{ name: 'John', salary: 1000 }, { name: 'Alice', salary: 600 }],
+  sales: {
+    market:[{ name: 'John', salary: 1000 }, { name: 'Alice', salary: 600 }],
+    calls:[{ name: 'John', salary: 1000 }, { name: 'Alice', salary: 600 }],
+  },
+  development: {
+    sites: [{ name: 'Peter', salary: 2000 }, { name: 'Alex', salary: 1800 }],
+    internals: {
+      'c++':[{ name: 'Jack', salary: 1300 }],
+      'python':[{ name: 'Jack', salary: 1300 }],
+    }
+  }
+};
+
+// Функция для подсчёта суммы зарплат
+function sumSalaries(department:any) {
+  if (Array.isArray(department)) { 
+    const sum = department.reduce((prev, current) => prev + current.salary, 0) // сумма зарплат
+    return sum
+  } else { 
+    let sum = 0
+    for (let subdep of Object.values(department)) {
+      sum += sumSalaries(subdep) // рекурсивно вызывается для подотделов, суммируя результаты
+    }
+    console.log('Сумма по подразделению', department, sum)
+    return sum
+  }
+}
+
+// стек 2 массив продажников, sum = 0
+// стек 1 весь Объект, sum = 0
+
+console.log(sumSalaries(company))
+
+const student1 = { name: 'dasa', age: 35, askQuestion(text:string) { alert(text)}}
+const student2 = { name: 'dasa2', age: 35, askQuestion(text: string) { alert(text)}}
+
+console.log(student1)
+console.log(student2)
+
+function Student(name:string, age:number) {
+  // @ts-ignore
+  this.name = name
+  // @ts-ignore
+  this.age = age
+  // @ts-ignore
+  this.askQuestion = function (text) { alert(text) }
+}
+
+// @ts-ignore
+const student3 = new Student('sdhgfik3', 15)
+// @ts-ignore
+const student4 = new Student('sdhgfik4', 25)
+
+console.log(student3)
+console.log(student4)
+
+class Student1 {
+  name = ''
+  age = 0
+  constructor(name: string, age: number) {
+    this.name = name
+    this.age = age
+  }
+  askQuestion = function(text:string) { alert(text) }
+}
+
+const student5 = new Student1('sdfsd',54)
+console.log(student5)
+
+// Реализовать класс PrintMaсhine, которой состоит из:
+// ■ размера шрифта;
+// ■ цвета шрифта;
+// ■ семейства шрифта;
+// ■ метода print(), который принимает текст и печатает его
+// соответствующим шрифтом с помощью document.write().
+// Создать объект такого класса и продемонстрировать работу
+// метода.
+
+class PrintMaсhine {
+  size = 14
+  color = 'red'
+  font = 'Arial'
+  tag = 'p'
+  constructor(size:number,color:string, font:string, tag:string='p') {
+    this.size = size
+    this.color = color
+    this.font = font
+    this.tag = tag
+  }
+  print = function(text:string) {
+    // @ts-ignore
+    document.write(`<${this.tag} style="font-size:${this.size}; color: ${this.color}; font-family:${this.font}">${text}</${this.tag}>`)
+  }
+}
+
+function PM(size: number, color: string, font: string, tag: string = 'p'): any {
+  return function print (text: string) {
+    document.write(`<${tag} style="font-size:${size}; color: ${color}; font-family:${font}">${text}</${tag}>`)
+  }
+}
+
+const rPA14 = PM(14, 'red', 'Arial')
+rPA14('sfdsfsdfwerwersdf sdfds fsdfs')
+
+const bHT16 = PM(16, 'blue', 'Tahoma', 'h1')
+bHT16('sdfsdfjwiooiwe nkuhyiuo hfsd')
+
+const redParagraphArial14 = new PrintMaсhine(14, 'red', 'Arial')
+const blueHeaderTahoma16 = new PrintMaсhine(16, 'blue', 'Tahoma', 'h1')
+
+blueHeaderTahoma16.tag = 'h2'
+blueHeaderTahoma16.print('sdfhsdkjfhsdk kjh ksjfdh sdk')
+redParagraphArial14.print('fsddsfdsfsd')

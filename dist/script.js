@@ -672,7 +672,7 @@ multiplyNumeric(salaries);
 console.log(salaries);
 const fraction1 = {
     numerator: 2,
-    denominator: 5
+    denominator: 5,
 };
 const fraction2 = {
     numerator: 2,
@@ -1313,13 +1313,13 @@ function showPurchase() {
     if (purchasedOl) {
         purchasedOl.innerHTML = ``;
     }
-    for (let el of purchase) {
+    purchase.forEach((el) => {
         if (!el.purchased) {
             if (purchasedOl) {
                 purchasedOl.innerHTML += `<li>${el.name} необходимо купить ${el.count} штук</li>`;
             }
         }
-    }
+    });
     for (let el of purchase) {
         if (el.purchased) {
             if (purchasedOl) {
@@ -1952,3 +1952,142 @@ calculator.addMethod("/", (a, b) => a / b);
 calculator.addMethod("**", (a, b) => a ** b);
 console.log(calculator.calculate("2 ** 3"));
 console.log(calculator.calculate("two plus 3"));
+let company = {
+    menegment: [{ name: 'John', salary: 1000 }, { name: 'Alice', salary: 600 }],
+    sales: {
+        market: [{ name: 'John', salary: 1000 }, { name: 'Alice', salary: 600 }],
+        calls: [{ name: 'John', salary: 1000 }, { name: 'Alice', salary: 600 }],
+    },
+    development: {
+        sites: [{ name: 'Peter', salary: 2000 }, { name: 'Alex', salary: 1800 }],
+        internals: {
+            'c++': [{ name: 'Jack', salary: 1300 }],
+            'python': [{ name: 'Jack', salary: 1300 }],
+        }
+    }
+};
+// Функция для подсчёта суммы зарплат
+function sumSalaries(department) {
+    if (Array.isArray(department)) {
+        const sum = department.reduce((prev, current) => prev + current.salary, 0); // сумма зарплат
+        return sum;
+    }
+    else {
+        let sum = 0;
+        for (let subdep of Object.values(department)) {
+            sum += sumSalaries(subdep); // рекурсивно вызывается для подотделов, суммируя результаты
+        }
+        console.log('Сумма по подразделению', department, sum);
+        return sum;
+    }
+}
+// стек 2 массив продажников, sum = 0
+// стек 1 весь Объект, sum = 0
+console.log(sumSalaries(company));
+const student1 = { name: 'dasa', age: 35, askQuestion(text) { alert(text); } };
+const student2 = { name: 'dasa2', age: 35, askQuestion(text) { alert(text); } };
+console.log(student1);
+console.log(student2);
+function Student(name, age) {
+    // @ts-ignore
+    this.name = name;
+    // @ts-ignore
+    this.age = age;
+    // @ts-ignore
+    this.askQuestion = function (text) { alert(text); };
+}
+// @ts-ignore
+const student3 = new Student('sdhgfik3', 15);
+// @ts-ignore
+const student4 = new Student('sdhgfik4', 25);
+console.log(student3);
+console.log(student4);
+class Student1 {
+    constructor(name, age) {
+        Object.defineProperty(this, "name", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: ''
+        });
+        Object.defineProperty(this, "age", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0
+        });
+        Object.defineProperty(this, "askQuestion", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: function (text) { alert(text); }
+        });
+        this.name = name;
+        this.age = age;
+    }
+}
+const student5 = new Student1('sdfsd', 54);
+console.log(student5);
+// Реализовать класс PrintMaсhine, которой состоит из:
+// ■ размера шрифта;
+// ■ цвета шрифта;
+// ■ семейства шрифта;
+// ■ метода print(), который принимает текст и печатает его
+// соответствующим шрифтом с помощью document.write().
+// Создать объект такого класса и продемонстрировать работу
+// метода.
+class PrintMaсhine {
+    constructor(size, color, font, tag = 'p') {
+        Object.defineProperty(this, "size", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 14
+        });
+        Object.defineProperty(this, "color", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 'red'
+        });
+        Object.defineProperty(this, "font", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 'Arial'
+        });
+        Object.defineProperty(this, "tag", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 'p'
+        });
+        Object.defineProperty(this, "print", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: function (text) {
+                // @ts-ignore
+                document.write(`<${this.tag} style="font-size:${this.size}; color: ${this.color}; font-family:${this.font}">${text}</${this.tag}>`);
+            }
+        });
+        this.size = size;
+        this.color = color;
+        this.font = font;
+        this.tag = tag;
+    }
+}
+function PM(size, color, font, tag = 'p') {
+    return function print(text) {
+        document.write(`<${tag} style="font-size:${size}; color: ${color}; font-family:${font}">${text}</${tag}>`);
+    };
+}
+const rPA14 = PM(14, 'red', 'Arial');
+rPA14('sfdsfsdfwerwersdf sdfds fsdfs');
+const bHT16 = PM(16, 'blue', 'Tahoma', 'h1');
+bHT16('sdfsdfjwiooiwe nkuhyiuo hfsd');
+const redParagraphArial14 = new PrintMaсhine(14, 'red', 'Arial');
+const blueHeaderTahoma16 = new PrintMaсhine(16, 'blue', 'Tahoma', 'h1');
+blueHeaderTahoma16.tag = 'h2';
+blueHeaderTahoma16.print('sdfhsdkjfhsdk kjh ksjfdh sdk');
+redParagraphArial14.print('fsddsfdsfsd');

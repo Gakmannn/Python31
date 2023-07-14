@@ -1988,17 +1988,15 @@ const student1 = { name: 'dasa', age: 35, askQuestion(text) { alert(text); } };
 const student2 = { name: 'dasa2', age: 35, askQuestion(text) { alert(text); } };
 console.log(student1);
 console.log(student2);
-function Student(name, age) {
-    // @ts-ignore
+const Student = (function (name, age) {
+    // this = {};  (неявно)
+    // добавляет свойства к this
     this.name = name;
-    // @ts-ignore
     this.age = age;
-    // @ts-ignore
     this.askQuestion = function (text) { alert(text); };
-}
-// @ts-ignore
+    // return this;  (неявно)
+});
 const student3 = new Student('sdhgfik3', 15);
-// @ts-ignore
 const student4 = new Student('sdhgfik4', 25);
 console.log(student3);
 console.log(student4);
@@ -2062,21 +2060,24 @@ class PrintMaсhine {
             writable: true,
             value: 'p'
         });
-        Object.defineProperty(this, "print", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: function (text) {
-                // @ts-ignore
-                document.write(`<${this.tag} style="font-size:${this.size}; color: ${this.color}; font-family:${this.font}">${text}</${this.tag}>`);
-            }
-        });
         this.size = size;
         this.color = color;
         this.font = font;
         this.tag = tag;
     }
+    print(text) {
+        // @ts-ignore
+        document.write(`<${this.tag} style="font-size:${this.size}; color: ${this.color}; font-family:${this.font}">${text}</${this.tag}>`);
+    }
 }
+// класс - это функция
+console.log(typeof PrintMaсhine); // function
+// ...или, если точнее, это метод constructor
+console.log(PrintMaсhine === PrintMaсhine.prototype.constructor); // true
+// Методы находятся в PrintMaсhine.prototype, например:
+console.log(PrintMaсhine.prototype.print);
+// в прототипе ровно 2 метода
+console.log(Object.getOwnPropertyNames(PrintMaсhine.prototype)); // constructor, print
 function PM(size, color, font, tag = 'p') {
     return function print(text) {
         document.write(`<${tag} style="font-size:${size}; color: ${color}; font-family:${font}">${text}</${tag}>`);
@@ -2091,3 +2092,85 @@ const blueHeaderTahoma16 = new PrintMaсhine(16, 'blue', 'Tahoma', 'h1');
 blueHeaderTahoma16.tag = 'h2';
 blueHeaderTahoma16.print('sdfhsdkjfhsdk kjh ksjfdh sdk');
 redParagraphArial14.print('fsddsfdsfsd');
+[0, 1, 2].forEach((el) => {
+    // console.log(el)
+});
+function forEach(arr, fn) {
+    for (let i = 0; i < arr.length; i++) {
+        fn(arr[i], i, arr);
+    }
+}
+// ######### Prototype #########
+let animal = {
+    eats: true,
+    eat() {
+        console.log('am-am-am');
+    },
+    walk() {
+        console.log('top-top');
+    }
+};
+let rabbit = {
+    __proto__: animal,
+    walk() {
+        console.log('jump-jump');
+    },
+};
+// Скрыли свойство jumps из for..in
+Object.defineProperty(rabbit, "jumps", {
+    enumerable: false,
+    configurable: true,
+    writable: true,
+    value: true
+});
+let longEar = {
+    earLength: 10,
+    __proto__: rabbit
+};
+// rabbit.__proto__ = animal // (*)
+// теперь мы можем найти оба свойства в rabbit:
+console.log('rabbit.eats', rabbit.eats); // true (**)
+console.log('rabbit.jumps', rabbit.jumps); // true
+rabbit.eat();
+rabbit.walk();
+console.log('rabbit', rabbit);
+console.log('longEar', longEar);
+longEar.eat();
+// Object.keys возвращает только собственные ключи
+console.log('rabbit keys', Object.keys(rabbit)); // walk
+console.log('rabbit jumps', rabbit.jumps); // true
+// for..in проходит и по своим, и по унаследованным ключам
+for (let prop in longEar)
+    console.log(prop); // jumps, walk, eats, eat
+for (let prop in rabbit) {
+    let isOwn = rabbit.hasOwnProperty(prop);
+    if (isOwn) {
+        console.log(`Собственное свойство: ${prop}`);
+    }
+    else {
+        console.log(`Унаследованное: ${prop}`);
+    }
+}
+let userO = {
+    name: "John",
+    surname: "Smith",
+    set fullName(value) {
+        this.name = value.split(" ")[0];
+        this.surname = value.split(" ")[1];
+    },
+    get fullName() {
+        return `${this.name} ${this.surname}`;
+    }
+};
+let admin = {
+    __proto__: userO,
+    isAdmin: true,
+};
+console.log({ ...admin });
+console.log(admin.fullName); // John Smith (*)
+// срабатывает сеттер!
+admin.fullName = "Alice Cooper Z1000"; // (**)
+console.log(admin.name); // Alice
+console.log(admin.surname); // Cooper
+console.log(admin.fullName);
+console.log(admin);

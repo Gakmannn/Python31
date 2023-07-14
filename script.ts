@@ -2517,18 +2517,18 @@ const student2 = { name: 'dasa2', age: 35, askQuestion(text: string) { alert(tex
 console.log(student1)
 console.log(student2)
 
-function Student(name:string, age:number) {
-  // @ts-ignore
-  this.name = name
-  // @ts-ignore
-  this.age = age
-  // @ts-ignore
-  this.askQuestion = function (text) { alert(text) }
-}
+const Student = (function (this:any, name:string, age:number) {
+  // this = {};  (неявно)
 
-// @ts-ignore
+  // добавляет свойства к this
+  this.name = name
+  this.age = age
+  this.askQuestion = function (text:string) { alert(text) }
+  
+  // return this;  (неявно)
+}) as any
+
 const student3 = new Student('sdhgfik3', 15)
-// @ts-ignore
 const student4 = new Student('sdhgfik4', 25)
 
 console.log(student3)
@@ -2567,11 +2567,24 @@ class PrintMaсhine {
     this.font = font
     this.tag = tag
   }
-  print = function(text:string) {
+  print(text:string) {
     // @ts-ignore
     document.write(`<${this.tag} style="font-size:${this.size}; color: ${this.color}; font-family:${this.font}">${text}</${this.tag}>`)
   }
 }
+
+// класс - это функция
+console.log(typeof PrintMaсhine) // function
+
+// ...или, если точнее, это метод constructor
+console.log(PrintMaсhine === PrintMaсhine.prototype.constructor) // true
+
+// Методы находятся в PrintMaсhine.prototype, например:
+console.log(PrintMaсhine.prototype.print)
+
+// в прототипе ровно 2 метода
+console.log(Object.getOwnPropertyNames(PrintMaсhine.prototype)) // constructor, print
+
 
 function PM(size: number, color: string, font: string, tag: string = 'p'): any {
   return function print (text: string) {
@@ -2591,3 +2604,104 @@ const blueHeaderTahoma16 = new PrintMaсhine(16, 'blue', 'Tahoma', 'h1')
 blueHeaderTahoma16.tag = 'h2'
 blueHeaderTahoma16.print('sdfhsdkjfhsdk kjh ksjfdh sdk')
 redParagraphArial14.print('fsddsfdsfsd')
+
+;[0,1,2].forEach((el)=>{
+  // console.log(el)
+})
+
+function forEach(arr:any[], fn:Function) {
+  for (let i=0;i<arr.length;i++) {
+    fn(arr[i],i,arr)
+  }
+}
+
+
+// ######### Prototype #########
+
+let animal = {
+  eats: true,
+  eat() {
+    console.log('am-am-am')
+  },
+  walk() {
+    console.log('top-top')
+  }
+} as any
+
+let rabbit = {
+  __proto__: animal,
+  walk() {
+    console.log('jump-jump')
+  },
+} as any
+
+// Скрыли свойство jumps из for..in
+Object.defineProperty(rabbit, "jumps", {
+  enumerable: false,
+  configurable: true,
+  writable: true,
+  value: true
+})
+
+let longEar = {
+  earLength: 10,
+  __proto__: rabbit
+} as any
+
+// rabbit.__proto__ = animal // (*)
+
+// теперь мы можем найти оба свойства в rabbit:
+console.log('rabbit.eats', rabbit.eats) // true (**)
+console.log('rabbit.jumps', rabbit.jumps) // true
+rabbit.eat()
+rabbit.walk()
+console.log('rabbit', rabbit)
+console.log('longEar', longEar)
+longEar.eat()
+
+// Object.keys возвращает только собственные ключи
+console.log('rabbit keys', Object.keys(rabbit)) // walk
+console.log('rabbit jumps', rabbit.jumps) // true
+
+// for..in проходит и по своим, и по унаследованным ключам
+for (let prop in longEar) console.log(prop) // jumps, walk, eats, eat
+
+for (let prop in rabbit) {
+  let isOwn = rabbit.hasOwnProperty(prop)
+
+  if (isOwn) {
+    console.log(`Собственное свойство: ${prop}`)
+  } else {
+    console.log(`Унаследованное: ${prop}`)
+  }
+}
+
+let userO = {
+  name: "John",
+  surname: "Smith",
+
+  set fullName(value) {
+    this.name = value.split(" ")[0]
+    this.surname = value.split(" ")[1]
+  },
+
+  get fullName() {
+    return `${this.name} ${this.surname}`;
+  }
+} as any
+
+let admin = {
+  __proto__: userO,
+  isAdmin: true,
+} as any
+
+console.log({...admin}) 
+console.log(admin.fullName) // John Smith (*)
+
+// срабатывает сеттер!
+admin.fullName = "Alice Cooper Z1000" // (**)
+console.log(admin.name) // Alice
+console.log(admin.surname) // Cooper
+console.log(admin.fullName) 
+console.log(admin) 
+

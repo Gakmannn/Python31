@@ -2705,3 +2705,167 @@ console.log(admin.surname) // Cooper
 console.log(admin.fullName) 
 console.log(admin) 
 
+animal = {
+  eats: true
+}
+let newAnimal = {
+  breth: true
+}
+/**
+ * Функция-конструктор кролика
+ * @argument name:string - имя
+ */
+const Rabbit = (function (this:any, name:string) {
+  this.name = name
+}) as any
+
+// Не перезаписываем Rabbit.prototype полностью,
+// а добавляем к нему свойство
+Rabbit.prototype.jumps = true
+// Прототип по умолчанию сохраняется, и мы всё ещё имеем доступ к Rabbit.prototype.constructor
+
+// Или мы можем заново создать свойство constructor:
+Rabbit.prototype = {
+  jumps: true,
+  constructor: Rabbit
+}
+
+// теперь свойство constructor снова корректное, так как мы добавили его
+
+/* прототип по умолчанию
+Rabbit.prototype = { constructor: Rabbit };
+*/
+let defaultRabbit = new Rabbit('Dooglas') // наследует от {constructor: Rabbit}
+console.log('defaultRabbit',defaultRabbit)
+console.log('defaultRabbit.constructor == Rabbit',defaultRabbit.constructor == Rabbit) // true (свойство получено из прототипа)
+
+// Мы можем использовать свойство constructor существующего объекта для создания нового
+let rabbit2 = new defaultRabbit.constructor("Black Rabbit")
+console.log('rabbit2', rabbit2)
+// Это удобно, когда у нас есть объект, но мы не знаем, какой конструктор использовался для его создания (например, он мог быть взят из сторонней библиотеки), а нам необходимо создать ещё один такой объект
+
+Rabbit.prototype = animal
+rabbit = new Rabbit("White Rabbit") //  rabbit.__proto__ == animal
+Rabbit.prototype = newAnimal
+let newRabbit = new Rabbit("mr Black")  //  NewRabbit.__proto__ == newAnimal
+
+let superNewRabbit = new newRabbit.constructor("New") // Из-за присваивания прототипа произошла потеря конструктора, получили строку
+console.log('superNewRabbit', superNewRabbit) // true
+
+console.log('rabbit',rabbit) // true
+console.log('rabbit.eats',rabbit.eats) // true
+console.log('newRabbit', newRabbit) // undefined
+console.log('newRabbit.eats',newRabbit.eats) // undefined
+console.log('newRabbit.breth',newRabbit.breth) // true
+
+console.log(new String('sfsdfsd'))
+
+let obj = {}
+
+console.log(obj) // true
+// @ts-ignore
+console.log(obj.__proto__ === Object.prototype) // true
+// obj.toString === obj.__proto__.toString === Object.prototype.toString
+
+arr = [1, 2, 3]
+console.log(arr)
+
+// наследует ли от Array.prototype?
+// @ts-ignore
+console.log(arr.__proto__ === Array.prototype); // true
+
+// затем наследует ли от Object.prototype?
+// @ts-ignore
+console.log(arr.__proto__.__proto__ === Object.prototype); // true
+
+// и null на вершине иерархии
+// @ts-ignore
+console.log(arr.__proto__.__proto__.__proto__); // null
+
+// ?############# Описание объектов, методов JSDoc ##############
+// https://jsdoc.app/index.html
+
+/**
+ * Объект с числом и методом
+ */
+const myObj = {
+  /**
+   * @argument
+   * Просто число
+   */
+  a: 10,
+  /**
+   * @method
+   * Увеличивает a на 1
+   */
+  count() {
+    this.a++
+  }
+}
+
+myObj.count()
+myObj.a
+console.log(myObj)
+
+
+/**
+ * @method
+ * Тут можем создать описание функции
+*
+* @param {string} this - так описываются параметры. Т.к. это метод, опишем только this, который передавать не нужно
+*/
+// @ts-ignore
+String.prototype.reverse = function (this: string) {
+  return this.split('').reverse().join('')
+}
+// @ts-ignore
+console.log('sffgdfgdfg'.reverse())
+
+
+// @ts-ignore
+String.prototype.show = function () {
+  console.log(this)
+}
+
+// @ts-ignore
+"BOOM!".show() // BOOM!
+
+// Заимствование у прототипов
+
+// Например, если мы создаём объект, похожий на массив(псевдомассив), мы можем скопировать некоторые методы из Array в этот объект.
+
+const ArrayLikeObj:any = {
+  0: "Hello",
+  1: "world!",
+  length: 2,
+}
+
+ArrayLikeObj.__proto__.join = Array.prototype.join
+console.log(ArrayLikeObj.join(',')) // Hello,world!
+console.log(ArrayLikeObj)
+
+// Унаследовали все методы массива
+ArrayLikeObj.__proto__ = Array.prototype
+ArrayLikeObj.push('New')
+console.log(ArrayLikeObj.join(',')) // Hello,world!,New
+console.log(ArrayLikeObj)
+
+// Заимствование методов – гибкий способ, позволяющий смешивать функциональность разных объектов по необходимости
+
+
+// Синтаксис «class»
+
+class MyClass {
+  prop = 'value' // свойство
+  constructor() { // конструктор
+    // ...
+  }
+  method() { } // метод
+  get something() { return } // геттер (должен обязательно возвращать значение)
+  set something(val) { } // сеттер (Должен быть ровно один параметр)
+  [Symbol.iterator]() { } // метод с вычисляемым именем (здесь - символом)
+  // ...
+}
+
+class EmptyClass {}
+console.log(EmptyClass)

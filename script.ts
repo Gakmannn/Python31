@@ -721,7 +721,7 @@ function makeUser(name:string, age:number) {
   } as any
 }
 
-let user2 = makeUser("John", 40);
+let user2:any = makeUser("John", 40);
 console.log(user2)
 console.log('age' in user2) // Проверка на существование свойства в объекте
 const keyString = 'name'
@@ -2840,9 +2840,9 @@ const ArrayLikeObj:any = {
   length: 2,
 }
 
-ArrayLikeObj.__proto__.join = Array.prototype.join
-console.log(ArrayLikeObj.join(',')) // Hello,world!
-console.log(ArrayLikeObj)
+// ArrayLikeObj.__proto__.join = Array.prototype.join
+// console.log(ArrayLikeObj.join(',')) // Hello,world!
+// console.log(ArrayLikeObj)
 
 // Унаследовали все методы массива
 ArrayLikeObj.__proto__ = Array.prototype
@@ -2869,3 +2869,199 @@ class MyClass {
 
 class EmptyClass {}
 console.log(EmptyClass)
+
+
+const Clock = (function (this: any, { template }:any) {
+  
+    let timer: any
+  
+    function render() {
+    
+      let date = new Date()
+  
+      let hours = date.getHours()
+      let hoursStr = hours < 10 ? '0' + hours : hours
+  
+      let mins = date.getMinutes()
+      let minsStr = mins < 10 ? '0' + mins : mins
+  
+      let secs = date.getSeconds()
+      let secsStr = secs < 10 ? '0' + secs : secs
+  
+      let output = template
+        .replace('h', hoursStr)
+        .replace('m', minsStr)
+        .replace('s', secsStr)
+  
+      console.log(output)
+    }
+  
+    this.stop = function() {
+      clearInterval(timer)
+    }
+  
+    this.start = function() {
+      render()
+      timer = setInterval(render, 1000)
+    }
+  
+  }) as any
+  
+  let clock = new Clock({template: 'h:m:s'})
+  // clock.start()
+
+const startButton = document.getElementById('start')
+const stopButton = document.getElementById('stop')
+class MyClock {
+  timerElement = document.getElementById('timer')
+  template
+  constructor({ template }: any) {
+    this.template = template
+  }
+
+  timer: any
+
+  render() {
+
+    let date = new Date()
+
+    let hours = date.getHours()
+    let hoursStr = hours < 10 ? '0' + hours : hours
+
+    let mins = date.getMinutes()
+    let minsStr = mins < 10 ? '0' + mins : mins
+
+    let secs = date.getSeconds()
+    let secsStr = secs < 10 ? '0' + secs : secs
+
+    let output = this.template
+      .replace('h', hoursStr)
+      .replace('m', minsStr)
+      .replace('s', secsStr)
+
+    if (this.timerElement) this.timerElement.innerText = output
+  }
+
+  stop() {
+    clearInterval(this.timer)
+  }
+
+  start() {
+    this.render()
+    this.timer = setInterval(()=>{this.render()}, 1000)
+  }
+
+}
+
+clock = new MyClock({ template: 'h:m:s' })
+startButton?.addEventListener('click', () => { clock.start() })
+stopButton?.addEventListener('click', () => { clock.stop() })
+
+
+class Animal {
+  speed
+  name
+  constructor(name:string) {
+    this.speed = 0;
+    this.name = name;
+  }
+  run(speed:number) {
+    this.speed = speed;
+    console.log(`${this.name} бежит со скоростью ${this.speed}.`);
+  }
+  stop() {
+    this.speed = 0;
+    console.log(`${this.name} стоит неподвижно.`);
+  }
+}
+
+animal = new Animal("Мой питомец");
+
+class RabbitClass extends Animal {
+  maxSpeed
+  constructor(name: string, maxSpeed:number) {
+    super(name)
+    this.maxSpeed = maxSpeed
+  }
+  hide() {
+    console.log(`${this.name} прячется!`);
+  }
+  stop() {
+    super.stop(); // вызываем родительский метод stop
+    this.hide(); // и затем hide
+  }
+}
+
+rabbit = new RabbitClass("Белый кролик",15);
+
+console.log(rabbit)
+rabbit.run(5); // Белый кролик бежит со скоростью 5.
+rabbit.stop(); // Белый кролик прячется!
+
+class Animal1 {
+  name = 'animal';
+  // 1 место для аргументов
+  // 2 место для конструктора
+  constructor() {
+    console.log(this.name); // (*)
+  }
+  // 3 место для методов
+}
+
+class Rabbit1 extends Animal1 {
+  // генерируется для классов-потомков, у которых нет своего конструктора
+  // constructor(...args) {
+  //   super(...args);
+  //   this доступен на этой строке, поэтому в конструкторе родителя будет обращение к его собственному this.name 
+  // }
+  name = 'rabbit';
+}
+
+console.log(new Animal1()); // animal
+console.log(new Rabbit1()); // animal
+
+let testObj = {
+  a: 10,
+  b: 18,
+  showA() {
+    console.log('this', this)
+    console.log('this == testObj', this == testObj)
+    console.log('this.a', this.a)
+    console.log('this.b', this.b)
+    console.log('this.a + this.b', this.a + this.b)
+  }
+}
+
+testObj.showA()
+
+function showThisCoords(this:any) {
+  console.log('this', this)
+  if (this) console.log(`(${this.x},${this.y})`)
+}
+
+showThisCoords()
+
+const coord1 = { 
+  x: 0, 
+  y: 1, 
+  sc: showThisCoords
+}
+const coord2 = { x: 10, y: -1, sc: showThisCoords }
+const coord3 = { 
+  x: 1000, 
+  y: 152, 
+  sc: showThisCoords
+}
+const coord4 = { 
+  x: 540, 
+  y: 81, 
+  sc: showThisCoords
+}
+coord1.sc()
+coord2.sc()
+coord3.sc()
+coord4.sc()
+
+
+
+

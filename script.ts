@@ -2953,7 +2953,19 @@ class MyClock {
 
 }
 
-clock = new MyClock({ template: 'h:m:s' })
+class ExtendedMyClock extends MyClock {
+  precision
+  constructor({ template }: any, precision:number = 1000) {
+    super({ template })
+    this.precision = precision
+  }
+  start() {
+    this.render()
+    this.timer = setInterval(() => { this.render() }, this.precision)
+  }
+}
+
+clock = new ExtendedMyClock({ template: 'h:m:s' })
 startButton?.addEventListener('click', () => { clock.start() })
 stopButton?.addEventListener('click', () => { clock.stop() })
 
@@ -3062,6 +3074,88 @@ coord2.sc()
 coord3.sc()
 coord4.sc()
 
+// Итого
+// Чтобы унаследовать от класса: class Child extends Parent:
+//   При этом Child.prototype.__proto__ будет равен Parent.prototype, так что методы будут унаследованы.
+// При переопределении конструктора:
+//   Обязателен вызов конструктора родителя super() в конструкторе Child до обращения к this.
+// При переопределении другого метода:
+//   Мы можем вызвать super.method() в методе Child для обращения к методу родителя Parent.
+// Внутренние детали:
+//   Методы запоминают свой объект во внутреннем свойстве[[HomeObject]].Благодаря этому работает super, он в его прототипе ищет родительские методы.
+// !Работает только для методов записаных как method() {}
+// !Не работает для для методов записаных как method: function() {}
+// Поэтому копировать метод, использующий super, между разными объектами небезопасно.
+//     Также:
 
+//   У функций-стрелок нет своего this и super, поэтому они «прозрачно» встраиваются во внешний контекст.
 
+// ?Статические свойства и методы
+// Мы также можем присвоить метод самому классу.Такие методы называются статическими.
 
+// В объявление класса они добавляются с помощью ключевого слова static, например:
+
+class StaticUser {
+  static staticMethod() {
+    console.log(this === StaticUser)
+  }
+}
+
+StaticUser.staticMethod() // true
+// Это фактически то же самое, что присвоить метод напрямую как свойство функции:
+
+class StaticUser2 { }
+
+StaticUser2.staticMethod = function () {
+  console.log(this === StaticUser2)
+}
+StaticUser2.staticMethod()
+
+// Статические свойства
+// Новая возможность
+// Эта возможность была добавлена в язык недавно.Примеры работают в последнем Chrome.
+// Статические свойства также возможны, они выглядят как свойства класса, но с static в начале:
+
+class Article {
+  static publisher = "Илья Кантор"
+}
+
+console.log(Article.publisher) // Илья Кантор
+// Это то же самое, что и прямое присваивание Article:
+// Article.publisher = "Илья Кантор"
+
+class Book {
+  title
+  static count = 0
+  constructor(title:string) {
+    this.title = title
+    Book.count++
+  }
+  static getCount() {
+    return `На полке ${this.count} книги`
+  }
+  static burnBookByTitle(title:string, arr:Book[]) {
+    const index = arr.findIndex(el=> el.title == title)
+    arr[index].burn()
+    arr.splice(index, 1)
+  }
+  burn() {
+    Book.count--
+  }
+}
+
+const shelter = [
+  new Book('1'),
+  new Book('2'),
+  new Book('3'),
+  new Book('4'),
+]
+
+console.log(Book.count)
+console.log(Book.getCount())
+
+Book.burnBookByTitle('3', shelter)
+
+console.log(shelter)
+console.log(Book.count)
+console.log(Book.getCount())

@@ -2556,6 +2556,9 @@ console.log(student5)
 // Создать объект такого класса и продемонстрировать работу
 // метода.
 
+// Мы получаем div.forPrintMachine, в который будем выводить html
+const divForPrintMachine = document.querySelector('.forPrintMachine')
+
 class PrintMaсhine {
   size = 14
   color = 'red'
@@ -2568,8 +2571,11 @@ class PrintMaсhine {
     this.tag = tag
   }
   print(text:string) {
-    // @ts-ignore
-    document.write(`<${this.tag} style="font-size:${this.size}; color: ${this.color}; font-family:${this.font}">${text}</${this.tag}>`)
+    // проверяем, что div.forPrintMachine действительно существует на странице
+    if (divForPrintMachine) {
+      // добавляем во внуктренний html блока div.forPrintMachine новые данные
+      divForPrintMachine.innerHTML += `<${this.tag} style="font-size:${this.size}; color: ${this.color}; font-family:${this.font}">${text}</${this.tag}>`
+    }
   }
 }
 
@@ -3172,3 +3178,13 @@ console.log(Book.getCount())
 // Статические свойства и методы наследуются.
 
 // Для class B extends A прототип класса B указывает на A: B.[[Prototype]] = A.Таким образом, если поле не найдено в B, поиск продолжается в A.
+
+// Создаём и описываем новый html-элемент
+const myNewDiv = document.createElement('div')
+myNewDiv.className = 'aaa bbb'
+myNewDiv.setAttribute('style','color:green')
+myNewDiv.innerText = 'div созданный в js'
+myNewDiv.addEventListener('click', ()=>{alert('hello')})
+
+// Добавляем в уже существующий элемент
+divForPrintMachine?.appendChild(myNewDiv)

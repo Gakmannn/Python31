@@ -1,4 +1,5 @@
 "use strict";
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
 console.log('hello world');
 console.log(10 / 0, 'sfdsfsd', false);
 let h2 = document.querySelector('h2');
@@ -241,8 +242,8 @@ const onClick = function () {
         output1.innerText = 'Я вас не знаю';
     }
 };
-button1[0]?.addEventListener('click', onClick);
-button1[1]?.addEventListener('click', function () {
+(_a = button1[0]) === null || _a === void 0 ? void 0 : _a.addEventListener('click', onClick);
+(_b = button1[1]) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
     // @ts-ignore
     output1.innerText = '';
     // @ts-ignore
@@ -288,7 +289,7 @@ console.log("0 && 1 && 789", '0' && 1 && 789);
 // result = a ?? b
 // result = (a !== null && a !== undefined) ? a : b
 // Оператор нулевого слияния возвращает значимые значения и пропускает только null и undefined
-console.log(NaN ?? 0 ?? 'default');
+console.log((_c = NaN !== null && NaN !== void 0 ? NaN : 0) !== null && _c !== void 0 ? _c : 'default');
 console.log('' || 0 || 'default');
 // Важное различие между ними заключается в том, что:
 // || возвращает первое истинное значение.
@@ -542,7 +543,7 @@ sum = (a, b) => {
 sum = function (a, b) {
     return a + b;
 };
-let varFromServer = '' ?? 0 ?? 'not';
+let varFromServer = (_e = (_d = '') !== null && _d !== void 0 ? _d : 0) !== null && _e !== void 0 ? _e : 'not';
 console.log(undefined == null); // равны только друг другу
 let adas = `
 daasdas
@@ -884,11 +885,11 @@ for (let post of posts) {
     // if (post.author) {
     //   author = post.author.name ? post.author.name.toUpperCase() : post.author.nic.toUpperCase()
     // }
-    const author = post?.author?.name ? post.author.name.toUpperCase() : post?.author?.nic.toUpperCase();
+    const author = ((_f = post === null || post === void 0 ? void 0 : post.author) === null || _f === void 0 ? void 0 : _f.name) ? post.author.name.toUpperCase() : (_g = post === null || post === void 0 ? void 0 : post.author) === null || _g === void 0 ? void 0 : _g.nic.toUpperCase();
     document.write(`<p>${author}</p>`);
     document.write(`<br>`);
-    for (let i = 0; i < post.tags?.length; i++) {
-        document.write(post.tags?.pop());
+    for (let i = 0; i < ((_h = post.tags) === null || _h === void 0 ? void 0 : _h.length); i++) {
+        document.write((_j = post.tags) === null || _j === void 0 ? void 0 : _j.pop());
     }
     document.write(`<br>`);
 }
@@ -910,7 +911,7 @@ else if (street && !userObj.address) {
 }
 // console.log(userObj.address.street) // Ошибка!
 console.log(userObj.address ? userObj.address.street : undefined); // развёрнутая запись
-console.log(userObj.address?.['street']?.name); // сокращённая запись
+console.log((_l = (_k = userObj.address) === null || _k === void 0 ? void 0 : _k['street']) === null || _l === void 0 ? void 0 : _l.name); // сокращённая запись
 // fetch('http://jservice.io/api/random?count=1').
 //   then((response) => {
 //     return response.json()
@@ -1356,9 +1357,9 @@ function setPurchased() {
     }
     showPurchase();
 }
-showPurchaseButton?.addEventListener('click', showPurchase);
-addPurchaseButton?.addEventListener('click', addPurchase);
-setPurchasedButton?.addEventListener('click', setPurchased);
+showPurchaseButton === null || showPurchaseButton === void 0 ? void 0 : showPurchaseButton.addEventListener('click', showPurchase);
+addPurchaseButton === null || addPurchaseButton === void 0 ? void 0 : addPurchaseButton.addEventListener('click', addPurchase);
+setPurchasedButton === null || setPurchasedButton === void 0 ? void 0 : setPurchasedButton.addEventListener('click', setPurchased);
 // Задание 3
 // Создать массив css - стилей(цвет, размер шрифта, выравнивание, подчеркивание и т.д.).Каждый элемент массива – это объект, состоящий из двух свойств: название стиля и значение стиля.
 // Написать функцию, которая принимает массив стилей и текст, и выводит этот текст с помощью document.write() в тегах <p> </p>, добавив в открывающий тег атрибут style со всеми стилями, перечисленными в массиве.
@@ -1696,7 +1697,7 @@ let usersArr = [
 ];
 let userN = usersArr.find(item => item.id == 1);
 // Опциональная цепочка необходима, чтобы не поймать ошибку, в случае, если элемент не найден и user=undefined
-console.log(userN?.name); // Вася
+console.log(userN === null || userN === void 0 ? void 0 : userN.name); // Вася
 // В реальной жизни массивы объектов – обычное дело, поэтому метод find крайне полезен.
 // Обратите внимание, что в данном примере мы передаём find функцию item => item.id == 1 с одним аргументом.Это типично, другие аргументы этой функции используются редко.
 // У метода arr.findIndex такой же синтаксис, но он возвращает индекс, на котором был найден элемент, а не сам элемент.Значение -1 возвращается, если ничего не найдено.
@@ -2405,8 +2406,8 @@ class ExtendedMyClock extends MyClock {
     }
 }
 clock = new ExtendedMyClock({ template: 'h:m:s' });
-startButton?.addEventListener('click', () => { clock.start(); });
-stopButton?.addEventListener('click', () => { clock.stop(); });
+startButton === null || startButton === void 0 ? void 0 : startButton.addEventListener('click', () => { clock.start(); });
+stopButton === null || stopButton === void 0 ? void 0 : stopButton.addEventListener('click', () => { clock.stop(); });
 class Animal {
     constructor(name) {
         Object.defineProperty(this, "speed", {
@@ -2632,4 +2633,118 @@ myNewDiv.setAttribute('style', 'color:green');
 myNewDiv.innerText = 'div созданный в js';
 myNewDiv.addEventListener('click', () => { alert('hello'); });
 // Добавляем в уже существующий элемент
-divForPrintMachine?.appendChild(myNewDiv);
+divForPrintMachine === null || divForPrintMachine === void 0 ? void 0 : divForPrintMachine.appendChild(myNewDiv);
+// !Дата и время
+// Объект Date.Он содержит дату и время, а также предоставляет методы управления ими.
+// Например, его можно использовать для хранения времени создания / изменения, для измерения времени или просто для вывода текущей даты
+// Создание
+// Для создания нового объекта Date нужно вызвать конструктор new Date() с одним из следующих аргументов:
+// !new Date()
+// Без аргументов – создать объект Date с текущими датой и временем:
+let now = new Date();
+console.log(now); // показывает текущие дату и время
+// !new Date(milliseconds)
+// Создать объект Date с временем, равным количеству миллисекунд(тысячная доля секунды), прошедших с 1 января 1970 года UTC + 0.
+// ?0 соответствует 01.01.1970 UTC+0
+let Jan01_1970 = new Date(0);
+console.log(Jan01_1970);
+// теперь добавим 24 часа и получим 02.01.1970 UTC+0
+let Jan02_1970 = new Date(24 * 3600 * 1000);
+console.log(Jan02_1970);
+// Целое число, представляющее собой количество миллисекунд, прошедших с начала 1970 года, называется таймстамп(англ.timestamp).
+// Это – легковесное численное представление даты.Из таймстампа всегда можно получить дату с помощью new Date(timestamp) и преобразовать существующий объект Date в таймстамп, используя метод date.getTime()
+// ?Датам до 1 января 1970 будут соответствовать отрицательные таймстампы, например:
+// 31 декабря 1969 года
+let Dec31_1969 = new Date(-24 * 3600 * 1000);
+console.log(Dec31_1969);
+// !new Date(datestring)
+// Если аргумент всего один, и это строка, то из неё «прочитывается» дата.
+let date = new Date("2017-01-26");
+console.log(date);
+// Время не указано, поэтому оно ставится в полночь по Гринвичу и
+// меняется в соответствии с часовым поясом места выполнения кода
+// Так что в результате можно получить
+// Thu Jan 26 2017 11:00:00 GMT+1100 (восточно-австралийское время)
+// или
+// Wed Jan 25 2017 16:00:00 GMT-0800 (тихоокеанское время)
+// !new Date(year, month, date, hours, minutes, seconds, ms)
+// Создать объект Date с заданными компонентами в местном часовом поясе.Обязательны только первые два аргумента.
+// ?year должен состоять из четырёх цифр.Для совместимости также принимаются 2 цифры и рассматриваются как 19xx, к примеру, 98 здесь это тоже самое, что и 1998, но настоятельно рекомендуется всегда использовать 4 цифры.
+// ?month начинается с 0(январь) по 11(декабрь).
+// ?Параметр date здесь представляет собой день месяца.Если параметр не задан, то принимается значение 1.
+// ?Если параметры hours / minutes / seconds / ms отсутствуют, их значением становится 0.
+new Date(2011, 0, 1, 0, 0, 0, 0); // // 1 Jan 2011, 00:00:00
+new Date(2011, 0, 1); // то же самое, так как часы и проч. равны 0
+// Максимальная точность – 1 мс(до 1 / 1000 секунды):
+date = new Date(2011, 0, 1, 2, 3, 4, 567);
+console.log(date); // 1.01.2011, 02:03:04.567
+// !Получение компонентов даты
+// Существуют методы получения года, месяца и т.д.из объекта Date:
+// Получить год(4 цифры)
+console.log(date.getFullYear()); // 2011
+// Получить месяц, от 0 до 11.
+console.log(date.getMonth()); // 0
+// Получить день месяца, от 1 до 31, что несколько противоречит названию метода.
+console.log(date.getDate()); // 1
+// ?getHours(), getMinutes(), getSeconds(), getMilliseconds()
+// Получить, соответственно, часы, минуты, секунды или миллисекунды.
+// !Никакого getYear().Только getFullYear()
+// Многие интерпретаторы JavaScript реализуют нестандартный и устаревший метод getYear(), который порой возвращает год в виде двух цифр.Пожалуйста, обходите его стороной.Если нужно значение года, используйте getFullYear().
+// Кроме того, можно получить определённый день недели:
+console.log(date.getDay());
+// Вернуть день недели от 0(воскресенье) до 6(суббота).Несмотря на то, что в ряде стран за первый день недели принят понедельник, в JavaScript начало недели приходится на воскресенье.
+// Все вышеперечисленные методы возвращают значения в соответствии с местным часовым поясом.
+// ?Однако существуют и их UTC - варианты, возвращающие день, месяц, год для временной зоны UTC + 0: getUTCFullYear(), getUTCMonth(), getUTCDay().Для их использования требуется после "get" подставить "UTC".
+// Для заданной даты возвращает таймстамп – количество миллисекунд, прошедших с 1 января 1970 года UTC + 0.
+console.log(date.getTime());
+// Возвращает разницу в минутах между UTC и местным часовым поясом:
+console.log(date.getTimezoneOffset());
+// если вы в часовом поясе UTC-1, то выводится 60
+// если вы в часовом поясе UTC+3, выводится -180
+console.log(new Date().getTimezoneOffset());
+// Установка компонентов даты
+// Следующие методы позволяют установить компоненты даты и времени:
+// setFullYear(year, [month], [date])
+// setMonth(month, [date])
+// setDate(date)
+// setHours(hour, [min], [sec], [ms])
+// setMinutes(min, [sec], [ms])
+// setSeconds(sec, [ms])
+// setMilliseconds(ms)
+// setTime(milliseconds)(устанавливает дату в виде целого количества миллисекунд, прошедших с 01.01.1970 UTC)
+// У всех этих методов, кроме setTime(), есть UTC - вариант, например: setUTCHours().
+// Как мы видим, некоторые методы могут устанавливать сразу несколько компонентов даты, например: setHours.Если какая - то компонента не указана, она не меняется.
+let today = new Date();
+today.setHours(0);
+console.log(today); // выводится сегодняшняя дата, но значение часа будет 0
+today.setHours(0, 0, 0, 0);
+console.log(today); // всё ещё выводится сегодняшняя дата, но время будет ровно 00:00:00.
+// !Автоисправление даты
+// Автоисправление – это очень полезная особенность объектов Date.Можно устанавливать компоненты даты вне обычного диапазона значений, а объект сам себя исправит.
+date = new Date(2013, 0, 32); // 32 Jan 2013 ?!?
+console.log(date); // ...1st Feb 2013!
+// Неправильные компоненты даты автоматически распределяются по остальным.
+// Предположим, нам требуется увеличить дату «28 февраля 2016» на два дня.В зависимости от того, високосный это год или нет, результатом будет «2 марта» или «1 марта». Нам об этом думать не нужно.Просто прибавляем два дня.Объект Date позаботится об остальном:
+date = new Date(2016, 1, 28);
+date.setDate(date.getDate() + 2);
+console.log(date); // 1 Mar 2016
+// Эту возможность часто используют, чтобы получить дату по прошествии заданного отрезка времени.Например, получим дату «спустя 70 секунд с текущего момента»:
+date = new Date();
+date.setSeconds(date.getSeconds() + 70);
+console.log(date); // выводит правильную дату
+// Также можно установить нулевые или даже отрицательные значения.Например:
+date = new Date(2016, 0, 2); // 2 Jan 2016
+date.setDate(1); // задать первое число месяца
+console.log(date);
+date.setDate(0); // первый день месяца -- это 1, так что выводится последнее число предыдущего месяца
+console.log(date); // 31 Dec 2015
+// Преобразование к числу, разность дат
+// Если объект Date преобразовать в число, то получим таймстамп по аналогии с date.getTime():
+date = new Date();
+console.log(+date); // количество миллисекунд, то же самое, что date.getTime()
+// Важный побочный эффект: даты можно вычитать, в результате получаем разность в миллисекундах.
+// Если нужно просто измерить время, объект Date нам не нужен.
+Date.now();
+// !Существует особый метод Date.now(), возвращающий текущую метку времени.
+// Семантически он эквивалентен new Date().getTime(), однако метод не создаёт промежуточный объект Date.Так что этот способ работает быстрее и не нагружает сборщик мусора.
+// Данный метод используется из соображений удобства или когда важно быстродействие, например, при разработке игр на JavaScript или других специализированных приложений.

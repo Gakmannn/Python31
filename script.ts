@@ -3356,4 +3356,201 @@ Date.now()
 
 // Данный метод используется из соображений удобства или когда важно быстродействие, например, при разработке игр на JavaScript или других специализированных приложений.
 
+// !Флаги и дескрипторы свойств
+
+// Флаги свойств
+// Помимо значения value, свойства объекта имеют три специальных атрибута(так называемые «флаги»).
+
+//  ?writable – если true, свойство можно изменить, иначе оно только для чтения.
+//  ?enumerable – если true, свойство перечисляется в циклах, в противном случае циклы его игнорируют.
+//  ?configurable – если true, свойство можно удалить, а эти атрибуты можно изменять, иначе этого делать нельзя.
+
+// Эти атрибуты обычно они скрыты.Когда мы создаём свойство «обычным способом», все они имеют значение true.Но мы можем изменить их в любое время.
+
+// Сначала посмотрим, как получить их текущие значения.
+
+// Метод Object.getOwnPropertyDescriptor позволяет получить полную информацию о свойстве.
+
+// let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
+// obj Объект, из которого мы получаем информацию.
+// propertyName Имя свойства.
+
+const obj999 = {
+  name: 'fsf',
+  // Мы не можем создать дескриптор внутри объекта. Для этого есть специальные методы
+  nameWithDescriptor: {
+    value: 'Teddy',
+    writable: true,
+    enumerable: true,
+    configurable: true
+  }
+}
+
+// Обычное свойство
+console.log(Object.getOwnPropertyDescriptor(animal, 'name'))
+// {
+//   writable: true,
+//   configurable: true,
+//   enumerable: true,
+//   value: "Мой питомец"
+// }
+
+// Вычисляемое свойство
+console.log(Object.getOwnPropertyDescriptor(userO, 'fullName'))
+// {
+//   enumerable:true,
+//   configurable:true,
+//   !Вместо value
+//   get: ƒ fullName(),
+//   !Вместо writeble. Если сеттера не существует,- значение не установить
+//   set: ƒ fullName(value)  
+// }
+
+
+// Метод прототипа
+console.log(Object.getOwnPropertyDescriptor(rabbit.__proto__, 'hide'))
+// {
+//  configurable: true
+//  !По умолчанию не выводится в for..in
+//  enumerable:false
+//  value: ƒ hide()
+//  writable:true
+// }
+
+// Чтобы изменить флаги, мы можем использовать метод Object.defineProperty.
+
+// Object.defineProperty(obj, propertyName, descriptor)
+// obj, propertyName Объект и его свойство, для которого нужно применить дескриптор.
+// descriptor Применяемый дескриптор.
+animal.name = 'bear'
+// !Только для чтения
+Object.defineProperty(animal, 'name', { writable: false })
+// Вызовет ошибку, т.к. запретили изменение свойства
+// animal.name = 'bear2'
+console.log(Object.getOwnPropertyDescriptor(animal, 'name'))
+
+// ! Если свойство существует, defineProperty обновит его флаги.В противном случае метод создаёт новое свойство с указанным значением и флагами; если какой - либо флаг не указан явно, ему присваивается значение false.
+
+// ! Ошибки появляются только в строгом режиме
+// ? В нестрогом режиме, без use strict, мы не увидим никаких ошибок при записи в свойства «только для чтения» и т.п.Но эти операции всё равно не будут выполнены успешно.Действия, нарушающие ограничения флагов, в нестрогом режиме просто молча игнорируются.
+
+// !Неперечислимое свойство
+// ? Если установить для свойства enumerable:false, тогда оно перестанет появляться в цикле for..in и Object.keys. Мы можем сделать это для любого свойства или метода
+
+// ! Неконфигурируемое свойство
+// Флаг неконфигурируемого свойства(configurable: false) иногда предустановлен для некоторых встроенных объектов и свойств.
+
+// Неконфигурируемое свойство не может быть удалено, его атрибуты не могут быть изменены.
+// Например, свойство Math.PI – только для чтения, неперечислимое и неконфигурируемое:
+
+let descriptor = Object.getOwnPropertyDescriptor(Math, 'PI');
+/*
+{
+  "value": 3.141592653589793,
+  "writable": false,
+  "enumerable": false,
+  "configurable": false
+}
+*/
+// То есть программист не сможет изменить значение Math.PI или перезаписать его.
+
+// !Math.PI = 3; // Ошибка, потому что writable: false
+// !delete Math.PI тоже не сработает
+// !Мы также не можем изменить writable:
+// !Ошибка, из-за configurable: false
+// Object.defineProperty(Math, "PI", { writable: true });
+
+// !Мы абсолютно ничего не можем сделать с Math.PI.
+
+// Определение свойства как неконфигурируемого – это дорога в один конец.Мы не можем изменить его обратно с помощью defineProperty.
+
+// ?Обратите внимание: configurable: false не даст изменить флаги свойства, а также не даст его удалить.При этом можно изменить значение свойства.
+
+// В коде ниже свойство user.name является неконфигурируемым, но мы все ещё можем изменить его значение(т.к.writable: true).
+
+let user0 = {
+  name: "John"
+};
+
+Object.defineProperty(user0, "name", {
+  configurable: false
+});
+
+user.name = "Pete"; // работает
+// delete user.name; // Ошибка
+
+// А здесь мы делаем user.name «навечно запечатанной» константой, как и встроенный Math.PI:
+Object.defineProperty(user0, "name", {
+  writable: false,
+  configurable: false
+});
+
+// теперь невозможно изменить user.name или его флаги
+// !всё это не будет работать:
+// user.name = "Pete";
+// delete user.name;
+// Object.defineProperty(user, "name", { value: "Pete" });
+// ?Ошибки отображаются только в строгом режиме
+// В нестрогом режиме мы не увидим никаких ошибок при записи в свойства «только для чтения» и т.п.Эти операции всё равно не будут выполнены успешно.Действия, нарушающие ограничения флагов, в нестрогом режиме просто молча игнорируются.
+
+// !Метод Object.defineProperties
+// Существует метод Object.defineProperties(obj, descriptors), который позволяет определять множество свойств сразу.
+
+// Object.defineProperties(obj, {
+//   prop1: descriptor1,
+//   prop2: descriptor2
+//   // ...
+// });
+
+Например:
+Object.defineProperties(user0, {
+  name: { value: "John", writable: false },
+  surname: { value: "Smith", writable: false },
+  age: { value: "Smith", writable: true },
+  // ...
+})
+
+// Таким образом, мы можем определить множество свойств одной операцией.
+
+// ?Object.getOwnPropertyDescriptors
+// Чтобы получить все дескрипторы свойств сразу, можно воспользоваться методом Object.getOwnPropertyDescriptors(obj).
+console.log(Object.getOwnPropertyDescriptors(rabbit))
+
+// !Вместе с Object.defineProperties этот метод можно использовать для клонирования объекта вместе с его флагами:
+
+let clone2 = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
+// ?Обычно при клонировании объекта мы используем присваивание, чтобы скопировать его свойства:
+
+// for (let key in user) {
+//   clone[key] = user[key]
+// }
+// ?…Но это не копирует флаги.Так что если нам нужен клон «получше», предпочтительнее использовать Object.defineProperties.
+
+// ?Другое отличие в том, что for..in игнорирует символьные и неперечислимые свойства, а Object.getOwnPropertyDescriptors возвращает дескрипторы всех свойств.
+
+// Глобальное запечатывание объекта
+// Дескрипторы свойств работают на уровне конкретных свойств.
+
+// !Но ещё есть методы, которые ограничивают доступ ко всему объекту:
+
+// ?Запрещает добавлять новые свойства в объект.
+// Object.preventExtensions(obj)
+
+// ?Запрещает добавлять / удалять свойства.Устанавливает configurable: false для всех существующих свойств.
+//  Object.seal(obj)
+
+// ?Запрещает добавлять / удалять / изменять свойства.Устанавливает configurable: false, writable: false для всех существующих свойств.
+// Object.freeze(obj)
+
+// А также есть методы для их проверки:
+
+// ?Возвращает false, если добавление свойств запрещено, иначе true.
+// Object.isExtensible(obj)
+
+// ?Возвращает true, если добавление / удаление свойств запрещено и для всех существующих свойств установлено configurable: false.
+// Object.isSealed(obj)
+// ?Возвращает true, если добавление / удаление / изменение свойств запрещено, и для всех текущих свойств установлено configurable: false, writable: false.
+// Object.isFrozen(obj)
+
+// На практике эти методы используются редко. Но метко
 

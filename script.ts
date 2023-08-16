@@ -275,17 +275,19 @@ console.log((18**2)**0.5)
 
 
 // Получаем элементы
-const input1 = document.querySelector('#task1 input')
-const text1 = document.querySelector('#task1 b')
-const button1 = document.querySelectorAll('#task1 button')
-const output1 = document.querySelector('#task1 p')
+const input1 = document.querySelector('#task1 input') as HTMLInputElement
+
+if (input1) input1.value
+
+const text1 = document.querySelector('#task1 b') as HTMLElement
+const button1 = document.querySelectorAll('#task1 button') as Record<number,HTMLButtonElement>
+const output1 = document.querySelector('#task1 p') as HTMLParagraphElement
 document.write('<h1>asddasdas</h1>')
 document.write('<p>asddasdas</p>')
 document.write('<q>asddasdas</q>')
 const h1 = document.querySelector('h1')
 if (h1) h1.innerText = 'ddad'
-// @ts-ignore
-text1.innerText = 'Кто там?'
+if (text1) text1.innerText = 'Кто там?'
 // По нажатию на кнопку выводим результат
 const onClick = function () {
   // @ts-ignore

@@ -1,3 +1,4 @@
+setTimeout(() => { console.log('log from timeout') }, 0)
 console.log('hello world')
 console.log(10 / 0, 'sfdsfsd', false)
 let h2 = document.querySelector('h2')
@@ -3572,11 +3573,12 @@ document.body.appendChild(downloadButton)
 
 function renderCard(el:any) {
   const cardDiv = document.createElement('div')   // создаём родительский div, в кот. будем добавлять данные
-  cardDiv.style.display = 'flex'
-  cardDiv.style.margin = '0 auto'
-  cardDiv.style.maxWidth = '700px'
-  cardDiv.style.padding = '20px'
-  cardDiv.style.gap = '20px'
+  cardDiv.setAttribute('style', 'display:flex; margin:0 auto; max-width: 700px; padding: 20px; gap: 20px')
+  // cardDiv.style.display = 'flex'
+  // cardDiv.style.margin = '0 auto'
+  // cardDiv.style.maxWidth = '700px'
+  // cardDiv.style.padding = '20px'
+  // cardDiv.style.gap = '20px'
   const cardImage = document.createElement('img') // создали картинку
   cardImage.setAttribute('href', el.image)
   cardImage.style.minWidth = '200px'
@@ -3596,4 +3598,33 @@ function renderCard(el:any) {
   return cardDiv                                   // вернули заполненных данными кореневой div
 }
 
+// ? Плавный скролл
+// elem.scrollTo({
+//   left: 0,
+//   top: 0,
+//   behavior: 'smooth'
+// })
 
+
+// ?Полная высота документа с прокручиваемой частью
+// let scrollHeight = Math.max(
+//   document.body.scrollHeight, document.documentElement.scrollHeight,
+//   document.body.offsetHeight, document.documentElement.offsetHeight,
+//   document.body.clientHeight, document.documentElement.clientHeight
+// );
+
+
+// ?Текущая прокрутка сверху  window.pageYOffset
+// ?Текущая прокрутка слева   window.pageXOffset
+
+// ?получаем координаты элемента в контексте документа
+// function getCoords(elem) {
+//   let box = elem.getBoundingClientRect();
+
+//   return {
+//     top: box.top + window.pageYOffset,
+//     right: box.right + window.pageXOffset,
+//     bottom: box.bottom + window.pageYOffset,
+//     left: box.left + window.pageXOffset
+//   };
+// }

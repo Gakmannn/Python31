@@ -3628,3 +3628,49 @@ function renderCard(el:any) {
 //     left: box.left + window.pageXOffset
 //   };
 // }
+
+// Требования:
+
+// Центр мяча должен совпадать с местом нажатия мыши(если это возможно без пересечения краёв поля);
+// CSS - анимация желательна, но не обязательна;
+// Мяч ни в коем случае не должен пересекать границы поля;
+// При прокрутке страницы ничего не должно ломаться;
+// Заметки:
+
+// Код должен уметь работать с различными размерами мяча и поля, не привязываться к каким - либо фиксированным значениям.
+// Используйте свойства event.clientX / event.clientY для определения координат мыши при клике.
+
+if (window) window.addEventListener('load',()=>{
+
+  
+  const field = document.getElementById('field')
+  const ball = document.getElementById('ball')
+  
+  const ballWidth = ball?.clientWidth
+  const ballHeight = ball?.clientHeight
+  const fieldWidth = field?.clientWidth
+  const fieldHeight = field?.clientHeight
+  
+  let deg = 0
+
+  field?.addEventListener('click', (e)=>{
+    let x = e.offsetX
+    let y = e.offsetY
+    console.log(x,y)
+    if (ball && ballWidth && ballHeight && fieldWidth && fieldHeight) {
+      if (deg == 360) deg = 0
+      x = x - (ballWidth/2)
+      y = y - (ballHeight/2)
+      if (x < 0) x = 0
+      if (y < 0) y = 0
+      if (x + (ballWidth) > fieldWidth) x = fieldWidth - (ballWidth)
+      if (y + (ballHeight) > fieldHeight) y = fieldHeight - (ballHeight)
+      ball.style.left = x + 'px'
+      ball.style.top = y + 'px'
+      console.log(x,y)
+      deg += 180
+      ball.style.transform = `rotate(${deg}deg)`
+    }
+    
+  })
+})

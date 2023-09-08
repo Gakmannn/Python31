@@ -2979,27 +2979,90 @@ if (window)
         const fieldHeight = field === null || field === void 0 ? void 0 : field.clientHeight;
         let deg = 0;
         field === null || field === void 0 ? void 0 : field.addEventListener('click', (e) => {
-            let x = e.offsetX;
-            let y = e.offsetY;
-            console.log(x, y);
-            if (ball && ballWidth && ballHeight && fieldWidth && fieldHeight) {
-                if (deg == 360)
-                    deg = 0;
-                x = x - (ballWidth / 2);
-                y = y - (ballHeight / 2);
-                if (x < 0)
-                    x = 0;
-                if (y < 0)
-                    y = 0;
-                if (x + (ballWidth) > fieldWidth)
-                    x = fieldWidth - (ballWidth);
-                if (y + (ballHeight) > fieldHeight)
-                    y = fieldHeight - (ballHeight);
-                ball.style.left = x + 'px';
-                ball.style.top = y + 'px';
+            if (e.target == field) {
+                let x = e.offsetX;
+                let y = e.offsetY;
                 console.log(x, y);
-                deg += 180;
-                ball.style.transform = `rotate(${deg}deg)`;
+                if (ball && ballWidth && ballHeight && fieldWidth && fieldHeight) {
+                    if (deg == 360)
+                        deg = 0;
+                    x = x - (ballWidth / 2);
+                    y = y - (ballHeight / 2);
+                    if (x < 0)
+                        x = 0;
+                    if (y < 0)
+                        y = 0;
+                    if (x + (ballWidth) > fieldWidth)
+                        x = fieldWidth - (ballWidth);
+                    if (y + (ballHeight) > fieldHeight)
+                        y = fieldHeight - (ballHeight);
+                    ball.style.left = x + 'px';
+                    ball.style.top = y + 'px';
+                    console.log(x, y);
+                    deg += 180;
+                    ball.style.transform = `rotate(${deg}deg)`;
+                }
             }
         });
     });
+console.log([]);
+console.log({});
+class PowerArray extends Array {
+    isEmpty() {
+        return this.length === 0;
+    }
+}
+new Array(1, 2, 5, 6, 7);
+// @ts-ignore
+let arrRR = new PowerArray(1, 2, 5, 10, 50);
+console.log(arrRR.isEmpty()); // false
+let filteredArr = arrRR.filter(item => item >= 10);
+console.log(filteredArr); // 10, 50
+console.log(filteredArr.isEmpty()); // false
+// Реализуйте класс ExtendedDate, унаследовав его от стандарт-
+// ного класса Date и добавив следующие возможности:
+// ■ метод для вывода даты (числа и месяца) текстом;
+// ■ метод для проверки – это прошедшая дата или будущая
+// (если прошедшая, то метод возвращает false; если будущая или текущая, то true);
+// ■ метод для проверки – високосный год или нет;
+// ■ метод, возвращающий следующую дату.
+// Создайте объект класса ExtendedDate и выведите на экран
+// результаты работы новых методов.
+class ExtendedDate extends Date {
+    getRussianDate() {
+        const month = ['январь', 'ф', 'м', 'а', 'м', 'и', 'ил', 'ав', 'с', 'о', 'н', 'д'];
+        return this.getDate() + ' ' + month[this.getMonth()];
+    }
+    now() {
+        this.now();
+    }
+    parse(val) {
+        this.parse(val);
+    }
+}
+console.log((new ExtendedDate('2020-12-26')).getRussianDate());
+// При наступлении события – самый глубоко вложенный элемент, на котором оно произошло, помечается как «целевой» (event.target).
+// Затем событие сначала двигается вниз от корня документа к event.target, по пути вызывая обработчики, поставленные через addEventListener(...., true), где true – это сокращение для {capture: true}.
+// Далее обработчики вызываются на целевом элементе.
+// Далее событие двигается от event.target вверх к корню документа, по пути вызывая обработчики, поставленные через on<event> и addEventListener без третьего аргумента или с третьим аргументом равным false.
+// Каждый обработчик имеет доступ к свойствам события event:
+// event.target – самый глубокий элемент, на котором произошло событие.
+// event.currentTarget (=this) – элемент, на котором в данный момент сработал обработчик (тот, на котором «висит» конкретный обработчик)
+// event.eventPhase – на какой фазе он сработал (погружение=1, фаза цели=2, всплытие=3).
+// Любой обработчик может остановить событие вызовом event.stopPropagation(), но делать это не рекомендуется, так как в дальнейшем это событие может понадобиться, иногда для самых неожиданных вещей.
+// Поймайте переход по ссылке
+// Сделайте так, чтобы при клике на ссылки внутри элемента id = "contents" пользователю выводился вопрос о том, действительно ли он хочет покинуть страницу, и если он не хочет, то прерывать переход по ссылке.
+// Содержимое #contents может быть загружено динамически и присвоено при помощи innerHTML.Так что найти все ссылки и поставить на них обработчики нельзя.Используйте делегирование.
+// Содержимое может иметь вложенные теги, в том числе внутри ссылок, например, <a href=".." > <i>...</i></a >.
+const contents = document.createElement('div');
+contents.id = 'contents';
+// Имитация загрузки данных
+contents.innerHTML = '<p>Как насчёт того, чтобы прочитать <a href="https://wiki.com"><strong>Википедию</strong></a> или посетить <a href="https://w3.org">W3.org</a> и узнать о современных стандартах?</p>';
+contents.addEventListener('click', (event) => {
+    var _a;
+    const target = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest('a');
+    if (target && !confirm('Перейти по ссылке ' + target.href + '?')) {
+        event.preventDefault();
+    }
+});
+document.body.prepend(contents);
